@@ -18,6 +18,10 @@ public class Task implements Serializable {
 	
 	private Integer priority;
 
+	public Task() {
+		// default constructor
+	}
+
 	public Task(Integer id, String name, Status status, Integer priority) {
 		super();
 		this.id = id;
@@ -25,11 +29,38 @@ public class Task implements Serializable {
 		this.status = status;
 		this.priority = priority;
 	}
-	
-	
-	
-	
-	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
 	
 
 }

@@ -1,7 +1,10 @@
 package cz.wicketstuff.examples.spring.war.wicket.page;
 
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+
+import cz.wicketstuff.examples.spring.war.wicket.panel.TaskListPanel;
 
 /**
  * @author Martin Strejc (strma17)
@@ -21,6 +24,12 @@ public class HomePage extends AbstractExamplePage {
 
 	public HomePage(PageParameters parameters) {
 		super(parameters);
+	}
+	
+	@Override
+	protected void onInitialize() {
+		super.onInitialize();
+		add(new TaskListPanel("taskListPanel", new Model<>()));
 	}
 
 }

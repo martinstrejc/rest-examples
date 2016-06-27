@@ -12,5 +12,7 @@
 
 	<modules>
 		<module>spring-rest-example-war</module>
+		<module>spring-rest-example-rest</module>
+		<module>spring-rest-example-core</module>
 	</modules>
 </project>

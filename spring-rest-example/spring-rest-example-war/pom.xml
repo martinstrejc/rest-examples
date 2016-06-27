@@ -14,5 +14,17 @@
 
 	<name>Spring RESTFul API - WAR</name>
 	<description>The result WAR package of the project regarding JEE standard</description>
+	
+	<dependencies>
+	
+		<!-- Internal Dependencies -->
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>spring-rest-example-rest</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+	</dependencies>
 
 </project>

@@ -15,24 +15,25 @@
 		<module>spring-rest-example-rest</module>
 		<module>spring-rest-example-core</module>
 	</modules>
-	
+
 	<properties>
 		<!-- Versions of Libraries -->
 		<spring.version>4.3.0.RELEASE</spring.version>
 		<mybatis.version>3.4.1</mybatis.version>
+		<wicket.version>7.3.0</wicket.version>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
-			
+
 			<!-- Spring -->
-			
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-beans</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
@@ -62,16 +63,54 @@
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+
 			<!-- Database -->
-			
+
 			<dependency>
-			    <groupId>org.mybatis</groupId>
-			    <artifactId>mybatis</artifactId>
-			    <version>${mybatis.version}</version>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+
+			<!-- Wicket -->
+
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-core</artifactId>
+				<version>${wicket.version}</version>
 			</dependency>
 			
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-auth-roles</artifactId>
+				<version>${wicket.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-extensions</artifactId>
+				<version>${wicket.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-datetime</artifactId>
+				<version>${wicket.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-ioc</artifactId>
+				<version>${wicket.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-spring</artifactId>
+				<version>${wicket.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
-	
+
 </project>

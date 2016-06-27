@@ -13,4 +13,15 @@
 	<name>Spring RESTFul API  Core</name>
 	<description>The business logic and executable core</description>
 
+	<dependencies>
+		
+		<!-- Database -->
+		
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis</artifactId>
+		</dependency>
+	
+	</dependencies>
+	
 </project>

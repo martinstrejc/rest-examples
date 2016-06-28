@@ -44,6 +44,7 @@ public class MemoryTaskService implements TaskService {
 			grp.setName("New Group");
 			grp.setCreated(new Date());
 			grp.generateUUID();
+			grp.setTasks(new ArrayList<Task>());
 			taskGroups.add(grp);
 		} else {
 			grp = (TaskGroupExt)taskGroup;

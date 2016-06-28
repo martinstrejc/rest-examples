@@ -16,8 +16,6 @@
  */
 package cz.wicketstuff.examples.spring.core.domain;
 
-import java.util.List;
-
 /**
  * @author Martin Strejc (strma17)
  *
@@ -26,15 +24,16 @@ public class TaskGroup extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Task> tasks;
-
-	public List<Task> getTasks() {
-		return tasks;
+	
+	public TaskGroup() {
+		super();
 	}
 
-	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
+	public TaskGroup(TaskGroup other) {
+		super(other);
 	}
+
+
 
 	public enum Sort {
 		

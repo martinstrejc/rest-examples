@@ -39,7 +39,7 @@ public class TaskListPanel extends Panel {
 	@SpringBean
 	private TaskService taskService;
 	
-	public TaskListPanel(String id, IModel<TaskGroup> model) {
+	public TaskListPanel(String id, final IModel<TaskGroup> model) {
 		super(id, model);
 		
 		List<IColumn<Task, Sort>> columns = new LinkedList<>();
@@ -62,7 +62,7 @@ public class TaskListPanel extends Panel {
 			@Override
 			public Iterator<? extends Task> iterator(long first, long count) {
 				SortParam<Sort> sorting = getSort();
-				return taskService.getTasks(sorting.getProperty(), sorting.isAscending()).iterator();
+				return taskService.getTasks(model.getObject(), sorting.getProperty(), sorting.isAscending()).iterator();
 			}
 
 			@Override
@@ -72,7 +72,7 @@ public class TaskListPanel extends Panel {
 
 			@Override
 			public long size() {
-				return taskService.getTasksCount();
+				return taskService.getTasksCount(model.getObject());
 			}
 			
 		};
@@ -85,7 +85,7 @@ public class TaskListPanel extends Panel {
 		form.add(new TextField<String>("name"));
 		form.add(new TextField<Integer>("priority"));
 		form.add(new LambdaAjaxButton("submit", (target, buttonForm) -> {
-			taskService.createTask(taskModel.getObject());
+			taskService.createTask(model.getObject(), taskModel.getObject());
 			taskModel.setObject(new Task());
 			setResponsePage(getWebPage());
 		}, null));

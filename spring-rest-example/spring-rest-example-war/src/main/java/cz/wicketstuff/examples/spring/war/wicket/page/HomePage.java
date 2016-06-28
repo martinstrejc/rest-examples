@@ -1,7 +1,9 @@
 package cz.wicketstuff.examples.spring.war.wicket.page;
 
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
@@ -34,8 +36,15 @@ public class HomePage extends AbstractExamplePage {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
+		IModel<TaskGroup> model = (IModel<TaskGroup>)getDefaultModel();
+		add(new Label("groupName", PropertyModel.of(model, "name")));				
 		add(new TaskGroupListPanel("taskGroupListPanel", new Model<>()));
-		add(new TaskListPanel("taskListPanel", (IModel<TaskGroup>)getDefaultModel()));
+		add(new TaskListPanel("taskListPanel", model));
+	}
+	
+	@Override
+	protected IModel<?> initModel() {
+		return new Model<>();
 	}
 
 }

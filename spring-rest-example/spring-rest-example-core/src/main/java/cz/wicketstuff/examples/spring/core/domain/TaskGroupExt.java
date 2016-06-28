@@ -14,37 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.core.service;
+package cz.wicketstuff.examples.spring.core.domain;
 
 import java.util.List;
-
-import cz.wicketstuff.examples.spring.core.domain.Task;
-import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-public interface TaskService {
+public class TaskGroupExt extends TaskGroup {
 
-	Task createTask(TaskGroup taskGroup, Task task);
+	private static final long serialVersionUID = 1L;
 	
-	void saveTask(Task task);
+	private List<Task> tasks;
 	
-	void deleteTask(Task task);
-	
-	void setTaskPriority();
-	
-	long getTasksCount(TaskGroup taskGroup);
-	
-	List<Task> getTasks(TaskGroup taskGroup, Task.Sort sort, boolean ascending);
-	
-	TaskGroup createTaskGroup(TaskGroup taskGroup);
-	
-	List<TaskGroup> getTaskGroups(TaskGroup.Sort sort, boolean ascending);
-	
-	void deleteTaskGroup(TaskGroup taskGroup);
-	
-	long getTaskGroupsCount();
-	
+
+	public TaskGroupExt() {
+		super();
+	}
+
+	public TaskGroupExt(TaskGroup other) {
+		super(other);
+	}
+
+	public TaskGroupExt(TaskGroupExt other) {
+		super(other);
+		this.tasks = other.tasks;
+	}
+
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 }

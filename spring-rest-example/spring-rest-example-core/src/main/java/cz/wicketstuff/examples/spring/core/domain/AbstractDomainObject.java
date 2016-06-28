@@ -36,6 +36,17 @@ public abstract class AbstractDomainObject implements Serializable {
 	
 	private Date created;
 	
+	public AbstractDomainObject() {
+		// default constructor
+	}
+
+	public AbstractDomainObject(AbstractDomainObject other) {
+		this.id = other.id;
+		this.uuid = other.uuid;
+		this.name = other.name;
+		this.created = other.created;
+	}
+
 	public Long getId() {
 		return id;
 	}

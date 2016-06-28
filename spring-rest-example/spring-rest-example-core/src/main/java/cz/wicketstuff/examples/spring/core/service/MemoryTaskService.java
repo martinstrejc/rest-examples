@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.TaskGroupExt;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 
@@ -33,38 +34,53 @@ import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
  */
 public class MemoryTaskService implements TaskService {
 	
-	private final List<Task> tasks = new LinkedList<>();
-	private final List<TaskGroup> taskGroups = new LinkedList<>();
+	private final List<TaskGroupExt> taskGroups = new LinkedList<>();
 
-	public Task createTask(Task task) {
+	@Override
+	public Task createTask(TaskGroup taskGroup, Task task) {
+		TaskGroupExt grp;
+		if (taskGroup == null) {
+			grp = new TaskGroupExt();
+			grp.setName("New Group");
+			grp.setCreated(new Date());
+			grp.generateUUID();
+			taskGroups.add(grp);
+		} else {
+			grp = (TaskGroupExt)taskGroup;
+		}
 		task.setId(new Date().getTime());
 		task.generateUUID();
 		task.setCreated(new Date());
-		tasks.add(task);
+		grp.getTasks().add(task);
 		return task;
 	}
 
+	@Override
 	public void saveTask(Task task) {
 		// do nothing
 	}
 
+	@Override
 	public void deleteTask(Task task) {
-		tasks.remove(task);
-		
+		for (TaskGroupExt grp : taskGroups) {
+			if(grp.getTasks().remove(task)) 
+				break;			
+		}
 	}
 
+	@Override
 	public void setTaskPriority() {
 		// do nothing
 	}
 
 	@Override
-	public long getTasksCount() {
-		return tasks.size();
+	public long getTasksCount(TaskGroup taskGroup) {
+		return taskGroup == null ? 0 : ((TaskGroupExt)taskGroup).getTasks().size();
 	}
 
 	@Override
-	public List<Task> getTasks(Sort sort, boolean ascending) {
-		List<Task> list = new ArrayList<>(tasks);
+	public List<Task> getTasks(TaskGroup taskGroup, Sort sort, boolean ascending) {
+		List<Task> list = new ArrayList<>(((TaskGroupExt)taskGroup).getTasks());
 		Collections.sort(list, Sort.ID == sort ? new IdComparator(ascending) : new NameComparator(ascending));
 		return list;
 	}
@@ -111,11 +127,12 @@ public class MemoryTaskService implements TaskService {
 
 	@Override
 	public TaskGroup createTaskGroup(TaskGroup taskGroup) {
-		taskGroup.generateUUID();
-		taskGroup.setCreated(new Date());
-		taskGroup.setTasks(new ArrayList<Task>());
-		taskGroups.add(taskGroup);
-		return taskGroup;
+		TaskGroupExt grp = new TaskGroupExt(taskGroup);
+		grp.generateUUID();
+		grp.setCreated(new Date());
+		grp.setTasks(new ArrayList<Task>());
+		taskGroups.add(grp);
+		return grp;
 	}
 
 	@Override

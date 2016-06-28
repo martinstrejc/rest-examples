@@ -14,6 +14,17 @@ public class Task extends AbstractDomainObject {
 	
 	private Integer priority;
 	
+	
+	public Task() {
+		super();
+	}
+
+	public Task(Task other) {
+		super(other);
+		this.status = other.status;
+		this.priority = other.priority;
+	}
+
 	public Status getStatus() {
 		return status;
 	}

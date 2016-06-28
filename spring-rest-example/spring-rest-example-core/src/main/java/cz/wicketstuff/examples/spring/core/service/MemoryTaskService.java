@@ -25,6 +25,7 @@ import java.util.List;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
+import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 
 /**
  * @author Martin Strejc (strma17)
@@ -33,9 +34,12 @@ import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 public class MemoryTaskService implements TaskService {
 	
 	private final List<Task> tasks = new LinkedList<>();
+	private final List<TaskGroup> taskGroups = new LinkedList<>();
 
 	public Task createTask(Task task) {
 		task.setId(new Date().getTime());
+		task.generateUUID();
+		task.setCreated(new Date());
 		tasks.add(task);
 		return task;
 	}
@@ -97,6 +101,29 @@ public class MemoryTaskService implements TaskService {
 		}
 		
 	}
+
+	@Override
+	public List<TaskGroup> getTaskGroups(
+			cz.wicketstuff.examples.spring.core.domain.TaskGroup.Sort sort,
+			boolean ascending) {
+		return new ArrayList<>(taskGroups);
+	}
+
+	@Override
+	public TaskGroup createTaskGroup(TaskGroup taskGroup) {
+		taskGroup.generateUUID();
+		taskGroup.setCreated(new Date());
+		taskGroup.setTasks(new ArrayList<Task>());
+		taskGroups.add(taskGroup);
+		return taskGroup;
+	}
+
+	@Override
+	public void deleteTaskGroup(TaskGroup taskGroup) {
+		taskGroups.remove(taskGroup);
+	}
+	
+	
 
 
 }

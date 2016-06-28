@@ -35,5 +35,15 @@ public class TaskGroup extends AbstractDomainObject {
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
-	
+
+	public enum Sort {
+		
+		ID,
+		
+		NAME,
+		
+		CREATED;
+		
+	}
+
 }

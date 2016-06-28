@@ -19,6 +19,7 @@ package cz.wicketstuff.examples.spring.core.service;
 import java.util.List;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 
 /**
  * @author Martin Strejc (strma17)
@@ -38,5 +39,10 @@ public interface TaskService {
 	
 	List<Task> getTasks(Task.Sort sort, boolean ascending);
 	
+	TaskGroup createTaskGroup(TaskGroup taskGroup);
+	
+	List<TaskGroup> getTaskGroups(TaskGroup.Sort sort, boolean ascending);
+	
+	void deleteTaskGroup(TaskGroup taskGroup);	
 	
 }

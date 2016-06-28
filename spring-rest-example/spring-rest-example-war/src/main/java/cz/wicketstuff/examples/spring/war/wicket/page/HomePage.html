@@ -8,13 +8,22 @@
 <div>
 <wicket:extend>
 
-        <div class="col-md-3 col-lg-2 sidebar-offcanvas" id="sidebar" role="navigation">
+        <div class="col-md-3" id="sidebar" role="navigation">
+			<div class="panel panel-primary">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Task Groups</h3>
+			  </div>
+			  <div class="panel-body">
+			  
 			    <div wicket:id="taskGroupListPanel"></div>        
+			  	
+			  </div>
+			</div>
         </div>
 
-        <div class="col-md-9 col-lg-10 main">
+        <div class="col-md-9">
 
-			<div class="panel panel-default" wicket:id="taskGroup">
+			<div class="panel panel-info" wicket:id="taskGroup">
 			  <div class="panel-heading">List Details</div>
 			  <div class="panel-body">
 			  	<div>ID: <span wicket:id="id"></span></div>
@@ -24,7 +33,7 @@
 			  	<div>Link: <a wicket:id="link"><span wicket:id="text"></span></a></div>
 			  </div>
 			</div>
-			
+
 			<div class="panel panel-primary">
 			  <div class="panel-heading">
 			    <h3 class="panel-title">Task List of <span class="text-uppercase" wicket:id="groupName">[list name]</span></h3>

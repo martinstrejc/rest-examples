@@ -36,7 +36,7 @@ public interface TaskService {
 	void setTaskPriority();
 	
 	long getTasksCount(TaskGroup taskGroup);
-	
+
 	List<Task> getTasks(TaskGroup taskGroup, Task.Sort sort, boolean ascending);
 	
 	TaskGroup createTaskGroup(TaskGroup taskGroup);
@@ -46,5 +46,7 @@ public interface TaskService {
 	void deleteTaskGroup(TaskGroup taskGroup);
 	
 	long getTaskGroupsCount();
+
+	TaskGroup getTaskGroupByUiid(String uuidString);
 	
 }

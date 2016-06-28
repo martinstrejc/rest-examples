@@ -9,8 +9,10 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.Url;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
+import cz.wicketstuff.examples.spring.core.service.TaskService;
 import cz.wicketstuff.examples.spring.war.wicket.panel.TaskGroupListPanel;
 import cz.wicketstuff.examples.spring.war.wicket.panel.TaskListPanel;
 
@@ -24,6 +26,9 @@ public class HomePage extends AbstractExamplePage {
 	
 	public static final String TASK_GROUP_PARAM = "taskGroup";
 
+	@SpringBean
+	private TaskService taskService;
+
 	public HomePage() {
 		super();
 	}
@@ -34,6 +39,7 @@ public class HomePage extends AbstractExamplePage {
 
 	public HomePage(PageParameters parameters) {
 		super(parameters);
+		setDefaultModel(Model.of(taskService.getTaskGroupByUiid(parameters.get(TASK_GROUP_PARAM).toString())));
 	}
 	
 	@SuppressWarnings("unchecked")

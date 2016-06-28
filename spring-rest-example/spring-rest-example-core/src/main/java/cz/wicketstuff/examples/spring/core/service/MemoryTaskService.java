@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroupExt;
@@ -144,6 +145,17 @@ public class MemoryTaskService implements TaskService {
 	@Override
 	public long getTaskGroupsCount() {
 		return taskGroups.size();
+	}
+
+	@Override
+	public TaskGroup getTaskGroupByUiid(String uuidString) {
+		UUID uuid = UUID.fromString(uuidString);
+		for (TaskGroupExt grp : taskGroups) {
+			if(uuid.equals(grp.getUuid())) {
+				return grp;
+			}
+		}
+		return null;
 	}
 	
 	

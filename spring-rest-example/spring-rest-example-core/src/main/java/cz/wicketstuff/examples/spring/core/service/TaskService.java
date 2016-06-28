@@ -35,7 +35,7 @@ public interface TaskService {
 	
 	void setTaskPriority();
 	
-	int getTasksCount();
+	long getTasksCount();
 	
 	List<Task> getTasks(Task.Sort sort, boolean ascending);
 	
@@ -43,6 +43,8 @@ public interface TaskService {
 	
 	List<TaskGroup> getTaskGroups(TaskGroup.Sort sort, boolean ascending);
 	
-	void deleteTaskGroup(TaskGroup taskGroup);	
+	void deleteTaskGroup(TaskGroup taskGroup);
+	
+	long getTaskGroupsCount();
 	
 }

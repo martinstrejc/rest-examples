@@ -8,7 +8,31 @@
 <body>
 <div>
 <wicket:extend>
-	<div wicket:id="taskListPanel"></div>
+
+        <div class="col-md-9 col-lg-10 main">
+
+			<div class="panel panel-default">
+			  <div class="panel-heading">Task Lists</div>
+			  <div class="panel-body">
+			    <div wicket:id="taskGroupListPanel"></div>
+			  </div>
+			</div>
+			
+			<div class="panel panel-primary">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Task List</h3>
+			  </div>
+			  <div class="panel-body">
+			  
+				<div wicket:id="taskListPanel"></div>
+			  	
+			  </div>
+			</div>
+				
+			
+
+        </div>
+
 </wicket:extend>
 </div>
 </body>

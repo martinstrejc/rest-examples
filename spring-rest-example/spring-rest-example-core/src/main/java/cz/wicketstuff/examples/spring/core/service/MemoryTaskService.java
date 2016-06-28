@@ -58,7 +58,7 @@ public class MemoryTaskService implements TaskService {
 	}
 
 	@Override
-	public int getTasksCount() {
+	public long getTasksCount() {
 		return tasks.size();
 	}
 
@@ -121,6 +121,11 @@ public class MemoryTaskService implements TaskService {
 	@Override
 	public void deleteTaskGroup(TaskGroup taskGroup) {
 		taskGroups.remove(taskGroup);
+	}
+
+	@Override
+	public long getTaskGroupsCount() {
+		return taskGroups.size();
 	}
 	
 	

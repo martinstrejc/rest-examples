@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<wicket:panel xmlns:wicket="http://wicket.apache.org/">
+	
+	<table wicket:id="table" class="table"></table>
+	
+	<div>
+		<form wicket:id="form">
+			<fieldset>
+				Name: <input wicket:id="name" type="text" />
+				<input type="submit" wicket:id="submit" value="Add" />
+			</fieldset>
+		</form>
+	</div>
+
+<wicket:fragment wicket:id="actionFragment">
+	<a wicket:id="delete">Remove</a>
+</wicket:fragment>
+	
+</wicket:panel>
+</body>
+</html>

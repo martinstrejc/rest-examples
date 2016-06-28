@@ -14,27 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.core.service;
+package cz.wicketstuff.examples.spring.core;
 
-import java.util.List;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import cz.wicketstuff.examples.spring.core.service.MemoryTaskService;
+import cz.wicketstuff.examples.spring.core.service.TaskService;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-public interface TaskService {
+@Configuration
+public class CoreConfig {
+	
+	@Bean
+	public TaskService taskService() {
+		return new MemoryTaskService();
+	}
 
-	Task createTask(Task task);
-	
-	void saveTask(Task task);
-	
-	void deleteTask(Task task);
-	
-	void setTaskPriority();
-	
-	int getTasksCount();
-	
-	List<Task> getTasks();
-	
-	
 }

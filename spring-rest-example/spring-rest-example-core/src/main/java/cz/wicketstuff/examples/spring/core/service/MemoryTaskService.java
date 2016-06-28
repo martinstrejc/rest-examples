@@ -16,25 +16,46 @@
  */
 package cz.wicketstuff.examples.spring.core.service;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-public interface TaskService {
+public class MemoryTaskService implements TaskService {
+	
+	private final List<Task> tasks = new LinkedList<>();
 
-	Task createTask(Task task);
+	public Task createTask(Task task) {
+		tasks.add(task);
+		return task;
+	}
+
+	public void saveTask(Task task) {
+		// do nothing
+	}
+
+	public void deleteTask(Task task) {
+		tasks.remove(task);
+		
+	}
+
+	public void setTaskPriority() {
+		// do nothing
+	}
+
+	@Override
+	public int getTasksCount() {
+		return tasks.size();
+	}
+
+	@Override
+	public List<Task> getTasks() {
+		return new ArrayList<Task>(tasks);
+	}
 	
-	void saveTask(Task task);
 	
-	void deleteTask(Task task);
-	
-	void setTaskPriority();
-	
-	int getTasksCount();
-	
-	List<Task> getTasks();
-	
-	
+
 }

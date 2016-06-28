@@ -1,6 +1,5 @@
 package cz.wicketstuff.examples.spring.war.wicket.panel;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,8 +22,10 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import cz.wicketstuff.examples.spring.core.service.Task;
+import cz.wicketstuff.examples.spring.core.service.TaskService;
 
 /**
  * @author Martin Strejc (strma17)
@@ -34,8 +35,9 @@ public class TaskListPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final List<Task> list = new ArrayList<>();
-
+	@SpringBean
+	private TaskService taskService;
+	
 	public TaskListPanel(String id, IModel<?> model) {
 		super(id, model);
 		
@@ -57,7 +59,7 @@ public class TaskListPanel extends Panel {
 
 					@Override
 					public void onClick(AjaxRequestTarget target) {
-						list.remove(rowModel.getObject());
+						taskService.deleteTask(rowModel.getObject());
 						setResponsePage(getWebPage());
 					}
 					
@@ -72,7 +74,7 @@ public class TaskListPanel extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			public Iterator<? extends Task> iterator(long first, long count) {
-				return list.iterator();
+				return taskService.getTasks().iterator();
 			}
 
 			public IModel<Task> model(Task object) {
@@ -80,7 +82,7 @@ public class TaskListPanel extends Panel {
 			}
 
 			public long size() {
-				return list.size();
+				return taskService.getTasksCount();
 			}
 			
 		};
@@ -98,7 +100,7 @@ public class TaskListPanel extends Panel {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				super.onSubmit(target, form);
-				list.add(taskModel.getObject());
+				taskService.createTask(taskModel.getObject());
 				taskModel.setObject(new Task());
 				setResponsePage(getWebPage());
 			}

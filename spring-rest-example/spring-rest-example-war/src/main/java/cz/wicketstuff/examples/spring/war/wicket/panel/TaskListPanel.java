@@ -22,6 +22,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
+import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.service.TaskService;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
@@ -85,8 +86,11 @@ public class TaskListPanel extends Panel {
 		form.add(new TextField<String>("name"));
 		form.add(new TextField<Integer>("priority"));
 		form.add(new LambdaAjaxButton("submit", (target, buttonForm) -> {
-			taskService.createTask(model.getObject(), taskModel.getObject());
+			Task createdTask = taskService.createTask(model.getObject(), taskModel.getObject());
 			taskModel.setObject(new Task());
+			if (model.getObject() == null) {
+				model.setObject(((TaskExt)createdTask).getTaskGroup());
+			}
 			setResponsePage(getWebPage());
 		}, null));
 		add(form);

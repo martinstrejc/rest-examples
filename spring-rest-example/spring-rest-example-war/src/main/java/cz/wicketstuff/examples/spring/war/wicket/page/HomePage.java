@@ -51,7 +51,16 @@ public class HomePage extends AbstractExamplePage {
 		add(new TaskGroupListPanel("taskGroupListPanel", new Model<>()));
 		add(new TaskListPanel("taskListPanel", model));
 		
-		WebMarkupContainer taskGroup = new WebMarkupContainer("taskGroup", CompoundPropertyModel.of(model));
+		WebMarkupContainer taskGroup = new WebMarkupContainer("taskGroup", CompoundPropertyModel.of(model)) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onConfigure() {
+				super.onConfigure();
+				setVisible(model.getObject() != null);
+			}
+		};
 		taskGroup.add(new Label("id"));
 		taskGroup.add(new Label("name"));
 		taskGroup.add(new Label("created"));

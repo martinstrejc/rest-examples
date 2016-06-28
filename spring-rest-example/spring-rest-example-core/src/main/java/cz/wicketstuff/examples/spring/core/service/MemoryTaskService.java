@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroupExt;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
@@ -50,11 +51,12 @@ public class MemoryTaskService implements TaskService {
 		} else {
 			grp = (TaskGroupExt)taskGroup;
 		}
-		task.setId(new Date().getTime());
-		task.generateUUID();
-		task.setCreated(new Date());
-		grp.getTasks().add(task);
-		return task;
+		TaskExt createdTask = new TaskExt(task);
+		createdTask.setId(new Date().getTime());
+		createdTask.generateUUID();
+		createdTask.setCreated(new Date());
+		grp.getTasks().add(createdTask);
+		return createdTask;
 	}
 
 	@Override

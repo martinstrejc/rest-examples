@@ -1,6 +1,7 @@
 package cz.wicketstuff.examples.spring.core.service;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Martin Strejc (strma17)
@@ -10,19 +11,21 @@ public class Task implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Long id;
 
 	private String name;
 
 	private Status status;
 	
 	private Integer priority;
+	
+	private Date created;
 
 	public Task() {
 		// default constructor
 	}
 
-	public Task(Integer id, String name, Status status, Integer priority) {
+	public Task(Long id, String name, Status status, Integer priority) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,11 +33,11 @@ public class Task implements Serializable {
 		this.priority = priority;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -60,6 +63,14 @@ public class Task implements Serializable {
 
 	public void setPriority(Integer priority) {
 		this.priority = priority;
+	}
+	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 	@Override
@@ -95,7 +106,9 @@ public class Task implements Serializable {
 		
 		PRIORITY,
 		
-		STATUS;
+		STATUS,
+		
+		CREATED;
 		
 	}
 	

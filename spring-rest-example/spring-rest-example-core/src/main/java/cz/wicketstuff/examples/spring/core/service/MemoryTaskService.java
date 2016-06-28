@@ -34,7 +34,7 @@ public class MemoryTaskService implements TaskService {
 	private final List<Task> tasks = new LinkedList<>();
 
 	public Task createTask(Task task) {
-		task.setId((int)new Date().getTime());
+		task.setId(new Date().getTime());
 		tasks.add(task);
 		return task;
 	}

@@ -4,10 +4,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -40,6 +42,7 @@ public class TaskListPanel extends Panel {
 		super(id, model);
 		
 		List<IColumn<Task, Sort>> columns = new LinkedList<>();
+		columns.add(new PropertyColumn<Task, Sort>(Model.of("ID"), Sort.ID, "id"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Name"), Sort.NAME, "name"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Priority"), Sort.PRIORITY, "priority"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Status"), Sort.STATUS, "status"));
@@ -55,19 +58,24 @@ public class TaskListPanel extends Panel {
 
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public Iterator<? extends Task> iterator(long first, long count) {
-				return taskService.getTasks().iterator();
+				SortParam<Sort> sorting = getSort();
+				return taskService.getTasks(sorting.getProperty(), sorting.isAscending()).iterator();
 			}
 
+			@Override
 			public IModel<Task> model(Task object) {
 				return Model.of(object);
 			}
 
+			@Override
 			public long size() {
 				return taskService.getTasksCount();
 			}
 			
 		};
+		dataProvider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
 		DefaultDataTable<Task, Sort> table = new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);
 		add(table);
 		

@@ -34,7 +34,7 @@ public interface TaskService {
 	
 	int getTasksCount();
 	
-	List<Task> getTasks();
+	List<Task> getTasks(Task.Sort sort, boolean ascending);
 	
 	
 }

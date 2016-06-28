@@ -17,8 +17,13 @@
 package cz.wicketstuff.examples.spring.core.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import cz.wicketstuff.examples.spring.core.service.Task.Sort;
 
 /**
  * @author Martin Strejc (strma17)
@@ -29,6 +34,7 @@ public class MemoryTaskService implements TaskService {
 	private final List<Task> tasks = new LinkedList<>();
 
 	public Task createTask(Task task) {
+		task.setId((int)new Date().getTime());
 		tasks.add(task);
 		return task;
 	}
@@ -52,10 +58,44 @@ public class MemoryTaskService implements TaskService {
 	}
 
 	@Override
-	public List<Task> getTasks() {
-		return new ArrayList<Task>(tasks);
+	public List<Task> getTasks(Sort sort, boolean ascending) {
+		List<Task> list = new ArrayList<>(tasks);
+		Collections.sort(list, Sort.ID == sort ? new IdComparator(ascending) : new NameComparator(ascending));
+		return list;
 	}
 	
-	
+	public static class IdComparator implements Comparator<Task> {
+		
+		private final boolean ascending;
+
+		public IdComparator(boolean ascending) {
+			super();
+			this.ascending = ascending;
+		}
+
+		@Override
+		public int compare(Task task1, Task task2) {
+			return task1.getId().compareTo(task2.getId()) * (ascending ? 1 : -1);
+		}
+		
+	}
+		
+	public static class NameComparator implements Comparator<Task> {
+
+		private final boolean ascending;
+
+		public NameComparator(boolean ascending) {
+			super();
+			this.ascending = ascending;
+		}
+
+
+		@Override
+		public int compare(Task task1, Task task2) {
+			return task1.getName().compareTo(task2.getName()) * (ascending ? 1 : -1);
+		}
+		
+	}
+
 
 }

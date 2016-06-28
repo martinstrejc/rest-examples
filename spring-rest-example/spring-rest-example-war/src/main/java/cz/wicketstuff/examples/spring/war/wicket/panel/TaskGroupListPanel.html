@@ -8,7 +8,7 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org/">
 	
 	<table wicket:id="table" class="table"></table>
-	
+	        
 	<div>
 		<form wicket:id="form">
 			<fieldset>
@@ -20,6 +20,10 @@
 
 <wicket:fragment wicket:id="actionFragment">
 	<a wicket:id="delete">Remove</a>
+</wicket:fragment>
+
+<wicket:fragment wicket:id="nameFragment">
+	<a wicket:id="link"><wicket:container wicket:id="name">[link name]</wicket:container></a>
 </wicket:fragment>
 	
 </wicket:panel>

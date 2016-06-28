@@ -47,6 +47,7 @@ public class ExampleApplication extends WebApplication {
 	
 	private void mountPages() {
 		mountPage("/home", HomePage.class);
+		mountPage("/home/${" + HomePage.TASK_GROUP_PARAM + "}", HomePage.class);
 	} 
 
 }

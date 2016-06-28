@@ -4,6 +4,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.war.wicket.panel.TaskGroupListPanel;
 import cz.wicketstuff.examples.spring.war.wicket.panel.TaskListPanel;
 
@@ -14,12 +15,14 @@ import cz.wicketstuff.examples.spring.war.wicket.panel.TaskListPanel;
 public class HomePage extends AbstractExamplePage {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final String TASK_GROUP_PARAM = "taskGroup";
 
 	public HomePage() {
 		super();
 	}
 
-	public HomePage(IModel<?> model) {
+	public HomePage(IModel<TaskGroup> model) {
 		super(model);
 	}
 
@@ -27,11 +30,12 @@ public class HomePage extends AbstractExamplePage {
 		super(parameters);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
 		add(new TaskGroupListPanel("taskGroupListPanel", new Model<>()));
-		add(new TaskListPanel("taskListPanel", new Model<>()));
+		add(new TaskListPanel("taskListPanel", (IModel<TaskGroup>)getDefaultModel()));
 	}
 
 }

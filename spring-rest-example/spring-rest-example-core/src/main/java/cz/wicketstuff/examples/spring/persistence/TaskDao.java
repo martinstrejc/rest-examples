@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.service.Status;
-import cz.wicketstuff.examples.spring.core.service.Task;
 
 /**
  * @author Martin Strejc (strma17)

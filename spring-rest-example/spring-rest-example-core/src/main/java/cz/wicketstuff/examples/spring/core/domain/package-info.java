@@ -14,29 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.core.service;
-
-import java.util.List;
-
-import cz.wicketstuff.examples.spring.core.domain.Task;
-
 /**
+ * Domain objects
+ * 
  * @author Martin Strejc (strma17)
  *
  */
-public interface TaskService {
-
-	Task createTask(Task task);
-	
-	void saveTask(Task task);
-	
-	void deleteTask(Task task);
-	
-	void setTaskPriority();
-	
-	int getTasksCount();
-	
-	List<Task> getTasks(Task.Sort sort, boolean ascending);
-	
-	
-}
+package cz.wicketstuff.examples.spring.core.domain;

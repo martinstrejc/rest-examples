@@ -1,7 +1,9 @@
-package cz.wicketstuff.examples.spring.core.service;
+package cz.wicketstuff.examples.spring.core.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import cz.wicketstuff.examples.spring.core.service.Status;
 
 /**
  * @author Martin Strejc (strma17)

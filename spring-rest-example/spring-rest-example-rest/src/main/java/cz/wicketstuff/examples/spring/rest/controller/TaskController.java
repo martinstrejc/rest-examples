@@ -3,8 +3,8 @@
  */
 package cz.wicketstuff.examples.spring.rest.controller;
 
+import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.service.Status;
-import cz.wicketstuff.examples.spring.core.service.Task;
 
 /**
  * @author Martin Strejc (strma17)

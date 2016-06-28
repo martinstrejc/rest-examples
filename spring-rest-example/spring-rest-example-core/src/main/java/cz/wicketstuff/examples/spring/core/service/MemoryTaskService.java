@@ -23,7 +23,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import cz.wicketstuff.examples.spring.core.service.Task.Sort;
+import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 
 /**
  * @author Martin Strejc (strma17)

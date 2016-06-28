@@ -3,6 +3,8 @@
  */
 package cz.wicketstuff.examples.spring.core.service;
 
+import cz.wicketstuff.examples.spring.core.domain.Task;
+
 /**
  * @author Martin Strejc (strma17)
  *

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.core.service;
+package cz.wicketstuff.examples.spring.core.domain;
 
 import java.io.Serializable;
 import java.util.Date;

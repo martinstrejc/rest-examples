@@ -20,8 +20,8 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import cz.wicketstuff.examples.spring.core.service.Task;
-import cz.wicketstuff.examples.spring.core.service.Task.Sort;
+import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.service.TaskService;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;

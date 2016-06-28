@@ -14,16 +14,20 @@
 
         <div class="col-md-9 col-lg-10 main">
 
-			<div class="panel panel-default">
-			  <div class="panel-heading">Task Lists</div>
+			<div class="panel panel-default" wicket:id="taskGroup">
+			  <div class="panel-heading">List Details</div>
 			  <div class="panel-body">
-			  ddd
+			  	<div>ID: <span wicket:id="id"></span></div>
+			  	<div>Name: <span wicket:id="name"></span></div>
+			  	<div>Created: <span wicket:id="created"></span></div>
+			  	<div>UUID: <span wicket:id="uuidString"></span></div>
+			  	<div>Link: <a wicket:id="link"><span wicket:id="text"></span></a></div>
 			  </div>
 			</div>
 			
 			<div class="panel panel-primary">
 			  <div class="panel-heading">
-			    <h3 class="panel-title">Task List of <wicket:container wicket:id="groupName">[list name]</wicket:container> </h3>
+			    <h3 class="panel-title">Task List of <span class="text-uppercase" wicket:id="groupName">[list name]</span></h3>
 			  </div>
 			  <div class="panel-body">
 			  

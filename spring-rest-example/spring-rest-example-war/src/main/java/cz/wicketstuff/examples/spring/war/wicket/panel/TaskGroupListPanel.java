@@ -46,9 +46,8 @@ public class TaskGroupListPanel extends Panel {
 		super(id, model);
 		
 		List<IColumn<TaskGroup, Sort>> columns = new LinkedList<>();
-		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("ID"), Sort.ID, "id"));
-		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, "name"));
-		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name 2"), Sort.NAME, (populating) -> {
+		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Created"), Sort.CREATED, "created"));
+		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (populating) -> {
 			Fragment fragment = new Fragment(populating.componentId, "nameFragment", TaskGroupListPanel.this);
 			Component link = new LambdaAjaxLink<Void>("link", (target, linkModel) -> {
 				// navigation

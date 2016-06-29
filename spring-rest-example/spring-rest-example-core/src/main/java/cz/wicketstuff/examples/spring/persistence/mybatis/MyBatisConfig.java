@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
+import cz.wicketstuff.examples.spring.persistence.PersistenceConfig;
 import cz.wicketstuff.examples.spring.persistence.mybatis.dao.MyBatisDaoPackageMarker;
 
 /**
@@ -35,13 +36,12 @@ import cz.wicketstuff.examples.spring.persistence.mybatis.dao.MyBatisDaoPackageM
  */
 @Configuration
 @MapperScan(basePackageClasses={MyBatisDaoPackageMarker.class})
-// @ComponentScan(basePackageClasses = {DataServicePackageMarker.class})
 public class MyBatisConfig {
 	
 	@Value("classpath:mybatis-mapperConfig.xml")
 	private Resource myBatisConfigResource;
 	
-	@javax.annotation.Resource(mappedName = "jdbc/spring_example")
+	@javax.annotation.Resource(mappedName = PersistenceConfig.JNDI_JDBC_RESOURCE)
 	private DataSource dataSource;
 
 	@Autowired(required = false)

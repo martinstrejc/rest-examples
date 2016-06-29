@@ -10,11 +10,11 @@
 		<result column="uuid" property="uuidString" />
 	</resultMap>
 
-	<resultMap type="TaskExt" id="taskGroupExt" autoMapping="false" extends="task">
+	<resultMap type="TaskExt" id="taskExt" autoMapping="false" extends="task">
 		<association property="taskGroup"></association>
 	</resultMap>
 
-	<resultMap type="Task" id="task_join" autoMapping="false">
+	<resultMap type="Task" id="taskJoin" autoMapping="false">
 		<id column="t_id" property="id" />
 		<result column="t_name" property="name" />
 		<result column="t_created" property="created" />

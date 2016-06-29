@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
@@ -29,6 +30,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import cz.wicketstuff.examples.spring.persistence.mybatis.MyBatisConfig;
+import cz.wicketstuff.examples.spring.persistence.service.impl.PersistenceServicePackageMarker;
 
 /**
  * @author Martin Strejc (strma17)
@@ -37,6 +39,7 @@ import cz.wicketstuff.examples.spring.persistence.mybatis.MyBatisConfig;
 @Configuration
 @EnableAspectJAutoProxy
 @Import({MyBatisConfig.class})
+@ComponentScan(basePackageClasses = {PersistenceServicePackageMarker.class})
 public class PersistenceConfig {
 	
 	public static final String JNDI_JDBC_RESOURCE = "jdbc/spring_example";

@@ -28,6 +28,7 @@ import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup.Sort;
 import cz.wicketstuff.examples.spring.core.service.TaskService;
 import cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskGroupDao;
+import cz.wicketstuff.examples.spring.persistence.service.TaskGroupPersistenceService;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxLink;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
@@ -48,7 +49,7 @@ public class TaskGroupListPanel extends Panel {
 	private TaskService taskService;
 	
 	@SpringBean
-	private TaskGroupDao taskGroupDao;
+	private TaskGroupPersistenceService persistence;
 
 	public TaskGroupListPanel(String id, IModel<?> model) {
 		super(id, model);
@@ -79,7 +80,8 @@ public class TaskGroupListPanel extends Panel {
 			@Override
 			public Iterator<? extends TaskGroup> iterator(long first, long count) {
 				SortParam<Sort> sorting = getSort();
-				return taskGroupDao.selectAll().iterator();
+				// return taskGroupDao.selectAll().iterator();
+				return persistence.getAll(sorting.getProperty()).iterator();
 				// return taskService.getTaskGroups(sorting.getProperty(), sorting.isAscending()).iterator();
 			}
 
@@ -90,7 +92,8 @@ public class TaskGroupListPanel extends Panel {
 
 			@Override
 			public long size() {
-				return taskGroupDao.selectAll().size();
+				return persistence.getAll(getSort().getProperty()).size();
+				// return persistence.getAll(getSort().getProperty()).;
 				// return taskService.getTaskGroupsCount();
 			}
 			
@@ -103,9 +106,10 @@ public class TaskGroupListPanel extends Panel {
 		Form<TaskGroup> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
 		form.add(new LambdaAjaxButton("submit", (target, buttonForm) -> {
+			persistence.save(taskModel.getObject());
 			// taskGroupDao.insert(taskModel.getObject());
 			// log.debug("taskGroup.id = {}", taskModel.getObject().getId());
-			taskService.createTaskGroup(taskModel.getObject());
+			/// taskService.createTaskGroup(taskModel.getObject());
 			taskModel.setObject(new TaskGroup());
 			setResponsePage(getWebPage());
 		}, null));

@@ -21,10 +21,13 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup.Sort;
 import cz.wicketstuff.examples.spring.core.service.TaskService;
+import cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskGroupDao;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxLink;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
@@ -39,9 +42,14 @@ public class TaskGroupListPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	
+	private static final Logger log = LoggerFactory.getLogger(TaskGroupListPanel.class);
+	
 	@SpringBean
 	private TaskService taskService;
 	
+	@SpringBean
+	private TaskGroupDao taskGroupDao;
+
 	public TaskGroupListPanel(String id, IModel<?> model) {
 		super(id, model);
 		
@@ -71,7 +79,8 @@ public class TaskGroupListPanel extends Panel {
 			@Override
 			public Iterator<? extends TaskGroup> iterator(long first, long count) {
 				SortParam<Sort> sorting = getSort();
-				return taskService.getTaskGroups(sorting.getProperty(), sorting.isAscending()).iterator();
+				return taskGroupDao.selectAll().iterator();
+				// return taskService.getTaskGroups(sorting.getProperty(), sorting.isAscending()).iterator();
 			}
 
 			@Override
@@ -81,7 +90,8 @@ public class TaskGroupListPanel extends Panel {
 
 			@Override
 			public long size() {
-				return taskService.getTaskGroupsCount();
+				return taskGroupDao.selectAll().size();
+				// return taskService.getTaskGroupsCount();
 			}
 			
 		};
@@ -93,6 +103,8 @@ public class TaskGroupListPanel extends Panel {
 		Form<TaskGroup> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
 		form.add(new LambdaAjaxButton("submit", (target, buttonForm) -> {
+			// taskGroupDao.insert(taskModel.getObject());
+			// log.debug("taskGroup.id = {}", taskModel.getObject().getId());
 			taskService.createTaskGroup(taskModel.getObject());
 			taskModel.setObject(new TaskGroup());
 			setResponsePage(getWebPage());

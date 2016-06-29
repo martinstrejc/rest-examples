@@ -25,9 +25,9 @@ import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.service.TaskService;
-import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxLink;
+import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
 
 /**
  * @author Martin Strejc (strma17)
@@ -39,7 +39,7 @@ public class TaskListPanel extends Panel {
 	
 	@SpringBean
 	private TaskService taskService;
-	
+
 	public TaskListPanel(String id, final IModel<TaskGroup> model) {
 		super(id, model);
 		

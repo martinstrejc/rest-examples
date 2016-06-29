@@ -1,9 +1,12 @@
 package cz.wicketstuff.examples.spring.core.domain;
 
+import org.apache.ibatis.type.Alias;
+
 /**
  * @author Martin Strejc (strma17)
  *
  */
+@Alias("TaskExt")
 public class TaskExt extends Task {
 
 	private static final long serialVersionUID = 1L;

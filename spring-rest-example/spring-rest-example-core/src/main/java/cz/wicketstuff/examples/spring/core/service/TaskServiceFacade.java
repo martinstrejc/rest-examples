@@ -4,6 +4,7 @@
 package cz.wicketstuff.examples.spring.core.service;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.Task.Status;
 
 /**
  * @author Martin Strejc (strma17)

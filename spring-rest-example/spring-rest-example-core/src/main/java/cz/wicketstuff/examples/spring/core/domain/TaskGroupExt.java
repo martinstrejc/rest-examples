@@ -18,10 +18,13 @@ package cz.wicketstuff.examples.spring.core.domain;
 
 import java.util.List;
 
+import org.apache.ibatis.type.Alias;
+
 /**
  * @author Martin Strejc (strma17)
  *
  */
+@Alias("TaskGroupExt")
 public class TaskGroupExt extends TaskGroup {
 
 	private static final long serialVersionUID = 1L;

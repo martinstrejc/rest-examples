@@ -14,27 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.core;
+package cz.wicketstuff.examples.spring.persistence.mybatis.typehandler;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.apache.ibatis.type.EnumTypeHandler;
 
-import cz.wicketstuff.examples.spring.core.service.MemoryTaskService;
-import cz.wicketstuff.examples.spring.core.service.TaskService;
-import cz.wicketstuff.examples.spring.persistence.PersistenceConfig;
+import cz.wicketstuff.examples.spring.core.domain.Task;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-@Configuration
-@Import({PersistenceConfig.class})
-public class CoreConfig {
-	
-	@Bean
-	public TaskService taskService() {
-		return new MemoryTaskService();
+public class TaskStatusTypeHandler extends  EnumTypeHandler<Task.Status> {
+
+	public TaskStatusTypeHandler() {
+		super(Task.Status.class);
 	}
 
 }

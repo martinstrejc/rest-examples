@@ -1,11 +1,12 @@
 package cz.wicketstuff.examples.spring.core.domain;
 
-import cz.wicketstuff.examples.spring.core.service.Status;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
+@Alias("Task")
 public class Task extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 1L;
@@ -39,6 +40,21 @@ public class Task extends AbstractDomainObject {
 
 	public void setPriority(Integer priority) {
 		this.priority = priority;
+	}
+	
+	/**
+	 * @author Martin Strejc (strma17)
+	 *
+	 */
+	@Alias("TaskStatus")
+	public enum Status {
+
+		NEW,
+		
+		IN_PROGRESS,
+		
+		DONE;
+		
 	}
 	
 	public enum Sort {

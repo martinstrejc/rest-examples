@@ -18,12 +18,15 @@ package cz.wicketstuff.examples.spring.persistence;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import cz.wicketstuff.examples.spring.persistence.mybatis.MyBatisConfig;
 
@@ -38,12 +41,22 @@ public class PersistenceConfig {
 	
 	public static final String JNDI_JDBC_RESOURCE = "jdbc/spring_example";
 	
-	@javax.annotation.Resource(mappedName = JNDI_JDBC_RESOURCE)
-	private DataSource dataSource;
-
 	@Bean
-	public PlatformTransactionManager transactionManager() {
+	@Autowired
+	public PlatformTransactionManager transactionManager(DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
-	}	
+	}
+	
+	@Bean(destroyMethod = "shutdown")
+	public DataSource dataSource() {
+		return new EmbeddedDatabaseBuilder()
+	     .generateUniqueName(true)
+	     .setType(EmbeddedDatabaseType.H2)
+	     .setScriptEncoding("UTF-8")
+	     .ignoreFailedDrops(true)
+	     .addScript("db-schema-h2.sql")
+	     // .addScripts("init_01.sql", "init_02.sql")
+	     .build();		
+	}
 
 }

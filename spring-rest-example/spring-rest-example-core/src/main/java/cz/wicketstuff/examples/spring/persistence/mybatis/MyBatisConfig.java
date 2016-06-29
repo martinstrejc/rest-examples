@@ -27,7 +27,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
-import cz.wicketstuff.examples.spring.persistence.PersistenceConfig;
 import cz.wicketstuff.examples.spring.persistence.mybatis.dao.MyBatisDaoPackageMarker;
 
 /**
@@ -41,14 +40,12 @@ public class MyBatisConfig {
 	@Value("classpath:mybatis-mapperConfig.xml")
 	private Resource myBatisConfigResource;
 	
-	@javax.annotation.Resource(mappedName = PersistenceConfig.JNDI_JDBC_RESOURCE)
-	private DataSource dataSource;
-
 	@Autowired(required = false)
 	private TransactionFactory transactionFactory;
 
-	@Bean 
-	public SqlSessionFactoryBean sqlSessionFactory() {
+	@Bean
+	@Autowired
+	public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
 		SqlSessionFactoryBean sqlSessionFactory;
 		sqlSessionFactory = new SqlSessionFactoryBean();
 		sqlSessionFactory.setDataSource(dataSource);

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
@@ -22,13 +23,15 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 
+
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.persistence.service.TaskPersistenceService;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxLink;
-import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;import cz.wicketstuff.examples.spring.war.wicket.page.HomePage;
+import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaSortableDataProvider;
+import cz.wicketstuff.examples.spring.war.wicket.page.HomePage;
 
 
 /**
@@ -59,14 +62,20 @@ public class TaskListPanel extends Panel {
 			}));
 			populating.cellItem.add(fragment);			
 		}));
+		
+		final LambdaSortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<Task, Task.Sort>((first, count) -> {
+			SortParam<Sort> sorting = dataProvider.getSort();
+			// return (Iterator<Task>)null;
+			return persistence.getAll(model.getObject(), sorting.getProperty()).iterator();
+			}, () -> {return 0L;});
+		
+		/*
 		ISortableDataProvider<Task, Sort> dataProvider = new SortableDataProvider<Task, Sort>() {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public Iterator<? extends Task> iterator(long first, long count) {
-				SortParam<Sort> sorting = getSort();
-				return persistence.getAll(model.getObject(), sorting.getProperty()).iterator();
 				// return taskService.getTasks(model.getObject(), sorting.getProperty(), sorting.isAscending()).iterator();
 			}
 
@@ -82,7 +91,7 @@ public class TaskListPanel extends Panel {
 				// return taskService.getTasksCount(model.getObject());
 			}
 			
-		};
+		};*/
 		dataProvider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
 		DefaultDataTable<Task, Sort> table = new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);
 		add(table);

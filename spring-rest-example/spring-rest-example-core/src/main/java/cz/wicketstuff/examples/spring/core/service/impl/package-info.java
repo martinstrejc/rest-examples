@@ -14,27 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.core;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import cz.wicketstuff.examples.spring.core.service.TaskService;
-import cz.wicketstuff.examples.spring.core.service.impl.TaskServiceImpl;
-import cz.wicketstuff.examples.spring.persistence.PersistenceConfig;
-
 /**
  * @author Martin Strejc (strma17)
  *
  */
-@Configuration
-@Import({PersistenceConfig.class})
-public class CoreConfig {
-	
-	@Bean
-	public TaskService taskService() {
-		return new TaskServiceImpl();
-	}
-
-}
+package cz.wicketstuff.examples.spring.core.service.impl;

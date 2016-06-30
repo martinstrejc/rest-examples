@@ -27,26 +27,13 @@ import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
  */
 public interface TaskService {
 
-	Task createTask(TaskGroup taskGroup, Task task);
+	Task create(Task task);
 	
-	void saveTask(Task task);
+	boolean delete(Task task);
 	
-	void deleteTask(Task task);
+	List<Task> get(TaskGroup taskGroup, Task.Sort sort, boolean ascending);
 	
-	void setTaskPriority();
+	long countAll(TaskGroup taskGroup);
 	
-	long getTasksCount(TaskGroup taskGroup);
-
-	List<Task> getTasks(TaskGroup taskGroup, Task.Sort sort, boolean ascending);
-	
-	TaskGroup createTaskGroup(TaskGroup taskGroup);
-	
-	List<TaskGroup> getTaskGroups(TaskGroup.Sort sort, boolean ascending);
-	
-	void deleteTaskGroup(TaskGroup taskGroup);
-	
-	long getTaskGroupsCount();
-
-	TaskGroup getTaskGroupByUiid(String uuidString);
 	
 }

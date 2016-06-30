@@ -14,27 +14,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.core;
+package cz.wicketstuff.examples.spring.core.service.impl;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import java.util.List;
 
+import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
+import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.service.TaskService;
-import cz.wicketstuff.examples.spring.core.service.impl.TaskServiceImpl;
-import cz.wicketstuff.examples.spring.persistence.PersistenceConfig;
+import cz.wicketstuff.examples.spring.persistence.service.TaskPersistenceService;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-@Configuration
-@Import({PersistenceConfig.class})
-public class CoreConfig {
+public class TaskServiceImpl implements TaskService {
+
 	
-	@Bean
-	public TaskService taskService() {
-		return new TaskServiceImpl();
+	@Override
+	public Task create(Task task) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public boolean delete(Task task) {
+		return false;
+	}
+
+	@Override
+	public List<Task> get(TaskGroup taskGroup, Sort sort, boolean ascending) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long countAll(TaskGroup taskGroup) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 }

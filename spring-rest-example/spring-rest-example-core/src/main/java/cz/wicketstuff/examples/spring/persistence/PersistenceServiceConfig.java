@@ -16,32 +16,17 @@
  */
 package cz.wicketstuff.examples.spring.persistence;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
 
-import cz.wicketstuff.examples.spring.persistence.mybatis.MyBatisConfig;
+import cz.wicketstuff.examples.spring.persistence.service.impl.PersistenceServicePackageMarker;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
 @Configuration
-@EnableAspectJAutoProxy
-@Import({InMemoryH2DataSourceConfig.class, MyBatisConfig.class, PersistenceConfig.class})
-public class PersistenceConfig {
-	
-	@Bean
-	@Autowired
-	public PlatformTransactionManager transactionManager(DataSource dataSource) {
-		return new DataSourceTransactionManager(dataSource);
-	}
-	
+@ComponentScan(basePackageClasses = {PersistenceServicePackageMarker.class})
+public class PersistenceServiceConfig {
 
 }

@@ -34,7 +34,7 @@ import cz.wicketstuff.examples.spring.persistence.mybatis.MyBatisConfig;
  */
 @Configuration
 @EnableAspectJAutoProxy
-@Import({InMemoryH2DataSourceConfig.class, MyBatisConfig.class, PersistenceConfig.class})
+@Import({InMemoryH2DataSourceConfig.class, MyBatisConfig.class, PersistenceServiceConfig.class})
 public class PersistenceConfig {
 	
 	@Bean

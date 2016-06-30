@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.domain.Task.Status;
-import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskDao;
 import cz.wicketstuff.examples.spring.persistence.service.TaskPersistenceService;
@@ -69,7 +68,7 @@ public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 	}
 
 	@Override
-	public TaskExt get(long id) {
+	public Task get(long id) {
 		return dao.selectByIdExt(id);
 	}
 	

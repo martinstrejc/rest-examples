@@ -15,6 +15,7 @@ public class Task extends AbstractDomainObject {
 	
 	private Integer priority;
 	
+	private TaskGroup taskGroup;
 	
 	public Task() {
 		super();
@@ -24,6 +25,7 @@ public class Task extends AbstractDomainObject {
 		super(other);
 		this.status = other.status;
 		this.priority = other.priority;
+		this.taskGroup = other.taskGroup;
 	}
 
 	public Status getStatus() {
@@ -41,7 +43,15 @@ public class Task extends AbstractDomainObject {
 	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
-	
+
+	public TaskGroup getTaskGroup() {
+		return taskGroup;
+	}
+
+	public void setTaskGroup(TaskGroup taskGroup) {
+		this.taskGroup = taskGroup;
+	}	
+
 	/**
 	 * @author Martin Strejc (strma17)
 	 *

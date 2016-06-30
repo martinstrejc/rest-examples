@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup.Sort;
-import cz.wicketstuff.examples.spring.core.domain.TaskGroupExt;
 import cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskGroupDao;
 import cz.wicketstuff.examples.spring.persistence.service.TaskGroupPersistenceService;
 
@@ -69,7 +68,7 @@ public class TaskGroupPersistenceServiceImpl implements TaskGroupPersistenceServ
 	}
 
 	@Override
-	public TaskGroupExt getExt(long id) {
+	public TaskGroup getExt(long id) {
 		return dao.selectByIdExt(id);
 	}
 

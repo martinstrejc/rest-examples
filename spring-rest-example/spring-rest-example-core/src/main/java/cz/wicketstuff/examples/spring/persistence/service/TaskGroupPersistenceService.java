@@ -19,7 +19,6 @@ package cz.wicketstuff.examples.spring.persistence.service;
 import java.util.List;
 
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
-import cz.wicketstuff.examples.spring.core.domain.TaskGroupExt;
 
 /**
  * @author Martin Strejc (strma17)
@@ -33,7 +32,7 @@ public interface TaskGroupPersistenceService {
 
 	TaskGroup get(long id);
 	
-	TaskGroupExt getExt(long id);
+	TaskGroup getExt(long id);
 	
 	boolean delete(TaskGroup taskGroup);
 

@@ -10,7 +10,7 @@
 		<result column="uuid" property="uuidString" />
 	</resultMap>
 
-	<resultMap type="TaskGroupExt" id="taskGroupExt" autoMapping="false" extends="taskGroup">
+	<resultMap type="TaskGroup" id="taskGroupExt" autoMapping="false" extends="taskGroup">
 		<collection property="tasks" resultMap="cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskDao.taskJoin">
 		</collection>
 	</resultMap>

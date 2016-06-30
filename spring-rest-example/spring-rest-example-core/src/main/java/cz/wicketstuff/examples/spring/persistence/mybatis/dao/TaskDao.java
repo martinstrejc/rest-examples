@@ -12,7 +12,6 @@ import org.apache.ibatis.mapping.StatementType;
 import org.springframework.stereotype.Repository;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
-import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 
 /**
  * @author Martin Strejc (strma17)
@@ -27,7 +26,7 @@ public interface TaskDao {
 
 	@Select("SELECT tg.*, t.id as t_id, t.name as t_name, t.created as t_created, t.uuid as t_uuid FROM task_group tg LEFT JOIN task t ON (t.task_group_id = tg.id) ORDER BY tg.created")
 	@ResultMap("taskExt")
-	List<TaskExt> selectAllExt();
+	List<Task> selectAllExt();
 
 	@Insert("INSERT INTO task (name, created, uuid, status, task_group_id) VALUES (#{name}, #{created}, #{uuidString}, #{status}, #{taskGroup.id})")
 	@SelectKey(
@@ -50,13 +49,13 @@ public interface TaskDao {
 
 	@Select("SELECT t.*, tg.id as tg_id, tg.name as tg_name, tg.created as tg_created, tg.uuid as tg_uuid FROM task t LEFT JOIN task_group tg ON (tg.id = t.task_group_id) WHERE t.id = #{id}")
 	@ResultMap("taskExt")
-	TaskExt selectByIdExt(long id);
+	Task selectByIdExt(long id);
 
 	@Select("SELECT * FROM task_group WHERE uuid = #{uuidString}")
-	TaskExt selectByUuid(String uuidString);
+	Task selectByUuid(String uuidString);
 
 	@Select("SELECT t.*, tg.id as tg_id, tg.name as tg_name, tg.created as tg_created, tg.uuid as tg_uuid FROM task t LEFT JOIN task_group tg ON (tg.id = t.task_group_id) WHERE t.id = #{uuidString}")
 	@ResultMap("taskExt")
-	TaskExt selectByUuidExt(String uuidString);
+	Task selectByUuidExt(String uuidString);
 
 }

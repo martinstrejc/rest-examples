@@ -29,7 +29,7 @@ public interface TaskDao {
 	@ResultMap("taskExt")
 	List<TaskExt> selectAllExt();
 
-	@Insert("INSERT INTO task (name, created, uuid, status) VALUES (#{name}, #{created}, #{uuidString}, #{status})")
+	@Insert("INSERT INTO task (name, created, uuid, status, task_group_id) VALUES (#{name}, #{created}, #{uuidString}, #{status}, #{taskGroup.id})")
 	@SelectKey(
 			before = false, 
 			keyColumn = "id", 

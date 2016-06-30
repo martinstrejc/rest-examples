@@ -42,8 +42,8 @@ public interface TaskGroupDao {
 	@Update("UPDATE task_group SET name = #{name} WHERE id = #{id}")
 	long update(TaskGroup taskGroup);
 	
-	@Delete("DELETE FROM taks WHERE id = #{taskId}")
-	void delete(long id);
+	@Delete("DELETE FROM task_group WHERE id = #{id}")
+	long delete(long id);
 
 	@Select("SELECT * FROM task_group WHERE id = #{id}")
 	TaskGroup selectById(long id);

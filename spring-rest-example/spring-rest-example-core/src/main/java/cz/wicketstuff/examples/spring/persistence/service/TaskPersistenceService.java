@@ -18,23 +18,22 @@ package cz.wicketstuff.examples.spring.persistence.service;
 
 import java.util.List;
 
+import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
-import cz.wicketstuff.examples.spring.core.domain.TaskGroupExt;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-public interface TaskGroupPersistenceService {
+public interface TaskPersistenceService {
 	
-	boolean save(TaskGroup taskGroup);
+	boolean save(Task task);
 	
-	List<TaskGroup> getAll(TaskGroup.Sort sort);
+	List<Task> getAll(TaskGroup taskGroup, Task.Sort sort);
 
-	TaskGroup get(long id);
+	TaskExt get(long id);
 	
-	TaskGroupExt getExt(long id);
-	
-	boolean delete(TaskGroup taskGroup);
+	boolean delete(Task task);
 
 }

@@ -68,7 +68,8 @@ public class TaskGroupListPanel extends Panel {
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), (populating) -> {
 			Fragment fragment = new Fragment(populating.componentId, "actionFragment", TaskGroupListPanel.this);
 			fragment.add(new LambdaAjaxLink<Void>("delete", (target, linkModel) -> {
-				taskService.deleteTaskGroup(populating.rowModel.getObject());
+				persistence.delete(populating.rowModel.getObject());
+				// taskService.deleteTaskGroup(populating.rowModel.getObject());
 				setResponsePage(getWebPage());					
 			}));
 			populating.cellItem.add(fragment);			

@@ -15,4 +15,11 @@
 		</collection>
 	</resultMap>
 
+	<resultMap type="TaskGroup" id="taskGroupJoin" autoMapping="false">
+		<id column="tg_id" property="id" />
+		<result column="tg_name" property="name" />
+		<result column="tg_created" property="created" />
+		<result column="tg_uuid" property="uuidString" />
+	</resultMap>
+
 </mapper>

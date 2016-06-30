@@ -16,6 +16,7 @@
  */
 package cz.wicketstuff.examples.spring.persistence.service.impl;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,59 +24,58 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.wicketstuff.examples.spring.core.domain.Task;
+import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
+import cz.wicketstuff.examples.spring.core.domain.Task.Status;
+import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
-import cz.wicketstuff.examples.spring.core.domain.TaskGroup.Sort;
-import cz.wicketstuff.examples.spring.core.domain.TaskGroupExt;
-import cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskGroupDao;
-import cz.wicketstuff.examples.spring.persistence.service.TaskGroupPersistenceService;
+import cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskDao;
+import cz.wicketstuff.examples.spring.persistence.service.TaskPersistenceService;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-@Service("taskGroupPersistenceService")
-public class TaskGroupPersistenceServiceImpl implements TaskGroupPersistenceService {
+@Service("taskPersistenceService")
+public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 
-	private final TaskGroupDao dao;
-	
+	private final TaskDao dao;
+
 	@Autowired
-	public TaskGroupPersistenceServiceImpl(TaskGroupDao dao) {
+	public TaskPersistenceServiceImpl(TaskDao dao) {
 		super();
 		this.dao = dao;
 	}
 
 	@Override
-	public boolean save(TaskGroup taskGroup) {
-		if (taskGroup.getId() == null) {
-			taskGroup.setCreated(new Date());
-			taskGroup.setUuid(UUID.randomUUID());
-			long id = dao.insert(taskGroup);
-			taskGroup.setId(id);
+	public boolean save(Task task) {
+		if (task.getId() == null) {
+			task.setCreated(new Date());
+			task.setUuid(UUID.randomUUID());
+			task.setStatus(Status.NEW);
+			long id = dao.insert(task);
+			task.setId(id);
 			return true;
 		} else {
-			return dao.update(taskGroup) > 0;
+			return dao.update(task) > 0;
 		}
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<TaskGroup> getAll(Sort sort) {
-		return dao.selectAll();
+	public List<Task> getAll(TaskGroup taskGroup, Sort sort) {
+		return taskGroup != null && taskGroup.getId() != null ? dao.selectAll(taskGroup.getId()) : Collections.EMPTY_LIST;
 	}
 
 	@Override
-	public TaskGroup get(long id) {
-		return dao.selectById(id);
-	}
-
-	@Override
-	public TaskGroupExt getExt(long id) {
+	public TaskExt get(long id) {
 		return dao.selectByIdExt(id);
 	}
-
-	@Override
-	public boolean delete(TaskGroup taskGroup) {
-		return dao.delete(taskGroup.getId()) > 0;
-	}
 	
+	@Override
+	public boolean delete(Task task) {
+		return dao.delete(task.getId()) > 0;
+	}
+
 }

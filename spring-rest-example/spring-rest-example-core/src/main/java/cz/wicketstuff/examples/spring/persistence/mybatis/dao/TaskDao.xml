@@ -11,7 +11,7 @@
 	</resultMap>
 
 	<resultMap type="TaskExt" id="taskExt" autoMapping="false" extends="task">
-		<association property="taskGroup"></association>
+		<association property="taskGroup" resultMap="cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskGroupDao.taskGroupJoin"></association>
 	</resultMap>
 
 	<resultMap type="Task" id="taskJoin" autoMapping="false">

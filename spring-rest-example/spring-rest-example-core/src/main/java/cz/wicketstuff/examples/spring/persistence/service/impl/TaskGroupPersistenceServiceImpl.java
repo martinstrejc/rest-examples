@@ -68,6 +68,12 @@ public class TaskGroupPersistenceServiceImpl implements TaskGroupPersistenceServ
 	}
 
 	@Override
+	public TaskGroup getByUuid(String uuid) {
+		return dao.selectByUuid(uuid);
+	}
+	
+
+	@Override
 	public TaskGroup getExt(long id) {
 		return dao.selectByIdExt(id);
 	}
@@ -76,5 +82,5 @@ public class TaskGroupPersistenceServiceImpl implements TaskGroupPersistenceServ
 	public boolean delete(TaskGroup taskGroup) {
 		return dao.delete(taskGroup.getId()) > 0;
 	}
-	
+
 }

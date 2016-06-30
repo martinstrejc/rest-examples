@@ -32,6 +32,8 @@ public interface TaskGroupPersistenceService {
 
 	TaskGroup get(long id);
 	
+	TaskGroup getByUuid(String uuid);
+	
 	TaskGroup getExt(long id);
 	
 	boolean delete(TaskGroup taskGroup);

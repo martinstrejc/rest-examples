@@ -29,6 +29,8 @@ public class TaskGroup extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 1L;
 	
+	private Long tasksCount;
+	
 	private List<Task> tasks;
 	
 	public TaskGroup() {
@@ -38,6 +40,7 @@ public class TaskGroup extends AbstractDomainObject {
 	public TaskGroup(TaskGroup other) {
 		super(other);
 		this.tasks = other.tasks;
+		this.tasksCount = other.tasksCount;
 	}
 
 	public List<Task> getTasks() {
@@ -46,6 +49,14 @@ public class TaskGroup extends AbstractDomainObject {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+	
+	public Long getTasksCount() {
+		return tasks == null ? tasksCount : tasks.size();
+	}
+
+	public void setTasksCount(Long tasksCount) {
+		this.tasksCount = tasksCount;
 	}
 
 	public enum Sort {

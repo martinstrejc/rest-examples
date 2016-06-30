@@ -8,6 +8,7 @@
 		<result column="name" property="name" />
 		<result column="created" property="created" />
 		<result column="uuid" property="uuidString" />
+		<result column="tasks_count" property="tasksCount" />
 	</resultMap>
 
 	<resultMap type="TaskGroup" id="taskGroupExt" autoMapping="false" extends="taskGroup">

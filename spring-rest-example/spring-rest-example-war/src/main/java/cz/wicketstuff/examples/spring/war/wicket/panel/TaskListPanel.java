@@ -24,7 +24,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
-import cz.wicketstuff.examples.spring.core.domain.TaskExt;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.persistence.service.TaskPersistenceService;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
@@ -88,14 +87,14 @@ public class TaskListPanel extends Panel {
 		DefaultDataTable<Task, Sort> table = new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);
 		add(table);
 		
-		final IModel<TaskExt> taskModel = new CompoundPropertyModel<>(new TaskExt());
-		Form<TaskExt> form = new Form<>("form", taskModel);
+		final IModel<Task> taskModel = new CompoundPropertyModel<>(new Task());
+		Form<Task> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
 		form.add(new TextField<Integer>("priority"));
 		form.add(new LambdaAjaxButton("submit", (target, buttonForm) -> {
 			taskModel.getObject().setTaskGroup(model.getObject());
 			persistence.save(taskModel.getObject());
-			taskModel.setObject(new TaskExt());
+			taskModel.setObject(new Task());
 			setResponsePage(new HomePage(model));
 		}, null));
 		add(form);

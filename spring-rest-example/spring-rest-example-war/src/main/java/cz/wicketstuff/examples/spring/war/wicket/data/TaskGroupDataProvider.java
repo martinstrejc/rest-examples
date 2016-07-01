@@ -61,7 +61,7 @@ public class TaskGroupDataProvider extends SortableDataProvider<TaskGroup, Sort>
 	
 	public static TaskGroupDataProvider createDetault(TaskGroupPersistenceService persistence) {
 		TaskGroupDataProvider provider = new TaskGroupDataProvider(persistence); 
-		provider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
+		provider.getSortState().setPropertySortOrder(Sort.CREATED, SortOrder.ASCENDING);
 		return provider;
 	}
 

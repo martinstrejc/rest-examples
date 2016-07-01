@@ -47,7 +47,7 @@ public class TaskDataProvider extends LambdaSortableDataProvider<Task, Sort> {
 	
 	public static TaskDataProvider createDefault(TaskPersistenceService persistence, IModel<TaskGroup> taskGroupModel) {		
 		TaskDataProvider provider = new TaskDataProvider(persistence, taskGroupModel);
-		provider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
+		provider.getSortState().setPropertySortOrder(Sort.CREATED, SortOrder.ASCENDING);
 		return provider;
 	}
 

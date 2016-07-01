@@ -53,7 +53,7 @@ public class TaskListPanel extends Panel {
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Status"), Sort.STATUS, "status"));
 		columns.add(new LambdaColumn<Task, Sort>(Model.of("Action"), populating -> {
 			Fragment fragment = new Fragment(populating.componentId, "actionFragment", TaskListPanel.this);
-			fragment.add(new LambdaAjaxLink<Void>("delete", (targetModel) -> {
+			fragment.add(new LambdaAjaxLink<Void>("delete", targetModel -> {
 				persistence.delete(populating.rowModel.getObject());
 				setResponsePage(getWebPage());					
 			}));

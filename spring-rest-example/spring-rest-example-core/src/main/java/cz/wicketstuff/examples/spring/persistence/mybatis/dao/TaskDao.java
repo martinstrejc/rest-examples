@@ -42,7 +42,7 @@ public interface TaskDao {
 			statementType = StatementType.STATEMENT)
 	long insert(Task task);
 	
-	@Update("UPDATE task_group SET name = #{name}, status = #{status} WHERE id = #{id}")
+	@Update("UPDATE task SET name = #{name}, status = #{status} WHERE id = #{id}")
 	long update(Task task);
 	
 	@Delete("DELETE FROM task WHERE id = #{taskId}")
@@ -55,7 +55,7 @@ public interface TaskDao {
 	@ResultMap("taskExt")
 	Task selectByIdExt(long id);
 
-	@Select("SELECT * FROM task_group WHERE uuid = #{uuidString}")
+	@Select("SELECT * FROM task WHERE uuid = #{uuidString}")
 	Task selectByUuid(String uuidString);
 
 	@Select("SELECT t.*, tg.id as tg_id, tg.name as tg_name, tg.created as tg_created, tg.uuid as tg_uuid FROM task t LEFT JOIN task_group tg ON (tg.id = t.task_group_id) WHERE t.id = #{uuidString}")

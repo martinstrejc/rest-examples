@@ -16,7 +16,6 @@
  */
 package cz.wicketstuff.examples.spring.persistence.service.impl;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +23,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.wicketstuff.examples.spring.core.domain.AbstractDomainObject;
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.domain.Task.Status;
@@ -61,10 +61,9 @@ public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<Task> getAll(TaskGroup taskGroup, Sort sort) {
-		return taskGroup != null && taskGroup.getId() != null ? dao.selectAll(taskGroup.getId()) : Collections.EMPTY_LIST;
+	public List<Task> getAll(TaskGroup taskGroup, Sort sort, boolean ascending) {
+		return AbstractDomainObject.exists(taskGroup) ? dao.selectAll(taskGroup.getId(), TaskDao.sqlSort(sort, ascending)) : null;
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 
 	@Override
 	public long countAll(TaskGroup taskGroup) {
-		return taskGroup != null && taskGroup.getId() != null ? dao.countAll(taskGroup.getId()) : 0;
+		return AbstractDomainObject.exists(taskGroup) ? dao.countAll(taskGroup.getId()) : 0;
 	}
-
+	
 }

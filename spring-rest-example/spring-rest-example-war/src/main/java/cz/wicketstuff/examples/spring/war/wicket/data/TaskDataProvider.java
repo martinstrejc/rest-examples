@@ -37,7 +37,7 @@ public class TaskDataProvider extends LambdaSortableDataProvider<Task, Sort> {
 	public TaskDataProvider(final TaskPersistenceService persistence, final IModel<TaskGroup> taskGroupModel) {
 		super((first, count, provider) -> {
 				SortParam<Sort> sorting = provider.getSort();
-				return persistence.getAll(taskGroupModel.getObject(), sorting.getProperty()).iterator();
+				return persistence.getAll(taskGroupModel.getObject(), sorting.getProperty(), sorting.isAscending()).iterator();
 			},
 			() -> { 
 				return persistence.countAll(taskGroupModel.getObject()); 

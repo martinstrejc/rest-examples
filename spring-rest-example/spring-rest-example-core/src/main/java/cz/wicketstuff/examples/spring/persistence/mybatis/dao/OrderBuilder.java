@@ -14,27 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.persistence.service;
-
-import java.util.List;
-
-import cz.wicketstuff.examples.spring.core.domain.Task;
-import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
+package cz.wicketstuff.examples.spring.persistence.mybatis.dao;
 
 /**
  * @author Martin Strejc (strma17)
  *
  */
-public interface TaskPersistenceService {
+public class OrderBuilder {
 	
-	boolean save(Task task);
+	private final StringBuilder sb = new StringBuilder();
 	
-	List<Task> getAll(TaskGroup taskGroup, Task.Sort sort, boolean ascending);
+	public OrderBuilder column(String column, boolean ascending) {
+		if (sb.length() > 0) {
+			sb.append(", ");
+		}
+		sb.append(column);
+		sb.append(ascending ? " ASC" : " DESC");
+		return this;
+	}
+	
+	public OrderBuilder asc(String column) {
+		return column(column, true);
+	}
 
-	Task get(long id);
+	public OrderBuilder desc(String column) {
+		return column(column, false);
+	}
 	
-	boolean delete(Task task);
-	
-	long countAll(TaskGroup taskGroup);
+	public String build() {
+		return sb.toString();
+	}
 
 }

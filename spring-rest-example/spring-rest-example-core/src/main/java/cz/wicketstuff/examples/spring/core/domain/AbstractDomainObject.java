@@ -115,5 +115,9 @@ public abstract class AbstractDomainObject implements Serializable {
 	public void generateUUID() {
 		setUuid(UUID.randomUUID());
 	}
+	
+	public static boolean exists(AbstractDomainObject object) {
+		return object != null && object.getId() != null;
+	}
 
 }

@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup.Sort;
 import cz.wicketstuff.examples.spring.core.service.TaskService;
-import cz.wicketstuff.examples.spring.persistence.mybatis.dao.TaskGroupDao;
 import cz.wicketstuff.examples.spring.persistence.service.TaskGroupPersistenceService;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxLink;
@@ -58,16 +57,16 @@ public class TaskGroupListPanel extends Panel {
 		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Created"), Sort.CREATED, "created"));
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (populating) -> {
 			Fragment fragment = new Fragment(populating.componentId, "nameFragment", TaskGroupListPanel.this);
-			Component link = new LambdaAjaxLink<Void>("link", (targetModel) -> {
+			Component link = new LambdaAjaxLink<Void>("link", targetModel -> {
 				// navigation
 				setResponsePage(new HomePage(Model.of(populating.rowModel)));
 			}).add(new Label("name", populating.rowModel.getObject().getName()));
 			fragment.add(link);
 			populating.cellItem.add(fragment);						
 		}));
-		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), (populating) -> {
+		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), populating -> {
 			Fragment fragment = new Fragment(populating.componentId, "actionFragment", TaskGroupListPanel.this);
-			fragment.add(new LambdaAjaxLink<Void>("delete", (targetModel) -> {
+			fragment.add(new LambdaAjaxLink<Void>("delete", targetModel -> {
 				persistence.delete(populating.rowModel.getObject());
 				// taskService.deleteTaskGroup(populating.rowModel.getObject());
 				setResponsePage(getWebPage());					
@@ -106,7 +105,7 @@ public class TaskGroupListPanel extends Panel {
 		final IModel<TaskGroup> taskModel = new CompoundPropertyModel<>(new TaskGroup());
 		Form<TaskGroup> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
-		form.add(new LambdaAjaxButton("submit", (formAjax) -> {
+		form.add(new LambdaAjaxButton("submit", formAjax -> {
 			persistence.save(taskModel.getObject());
 			// taskGroupDao.insert(taskModel.getObject());
 			// log.debug("taskGroup.id = {}", taskModel.getObject().getId());

@@ -17,7 +17,6 @@
 package cz.wicketstuff.examples.spring.war.wicket.extension;
 
 import java.io.Serializable;
-import java.util.function.Consumer;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
@@ -32,14 +31,14 @@ public class LambdaColumn<T, S> extends AbstractColumn<T, S> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final Consumer<Populating<T>> populator;
+	private final Populator<T> populator;
 
-	public LambdaColumn(IModel<String> displayModel, S sortProperty, Consumer<Populating<T>> populator) {
+	public LambdaColumn(IModel<String> displayModel, S sortProperty, Populator<T> populator) {
 		super(displayModel, sortProperty);
 		this.populator = populator;
 	}
 
-	public LambdaColumn(IModel<String> displayModel, Consumer<Populating<T>> populator) {
+	public LambdaColumn(IModel<String> displayModel, Populator<T> populator) {
 		super(displayModel);
 		this.populator = populator;
 	}
@@ -47,26 +46,17 @@ public class LambdaColumn<T, S> extends AbstractColumn<T, S> {
 	@Override
 	public final void populateItem(Item<ICellPopulator<T>> cellItem,
 			String componentId, IModel<T> rowModel) {
-		populator.accept(new Populating<T>(cellItem, componentId, rowModel));
+		populator.populate(cellItem, componentId, rowModel);
 	}
 	
-	public static class Populating<T> implements Serializable {
+	@FunctionalInterface
+	public interface Populator<T> extends Serializable {
 		
-		private static final long serialVersionUID = 1L;
+		void populate(Item<ICellPopulator<T>> cellItem,
+				String componentId, IModel<T> rowModel);
 		
-		public final Item<ICellPopulator<T>> cellItem;
-		public final String componentId;
-		public final IModel<T> rowModel;
-		
-		public Populating(Item<ICellPopulator<T>> cellItem, String componentId,
-				IModel<T> rowModel) {
-			super();
-			this.cellItem = cellItem;
-			this.componentId = componentId;
-			this.rowModel = rowModel;
-		}
-
-	} 
+	}
+	
 
 	
 }

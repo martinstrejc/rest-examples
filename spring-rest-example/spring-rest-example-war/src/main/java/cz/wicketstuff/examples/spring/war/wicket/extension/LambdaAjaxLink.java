@@ -17,7 +17,6 @@
 package cz.wicketstuff.examples.spring.war.wicket.extension;
 
 import java.io.Serializable;
-import java.util.function.Consumer;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -31,36 +30,27 @@ public class LambdaAjaxLink<T> extends AjaxLink<T> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final Consumer<TargetModel<T>> onClick;
+	private final AjaxAction<T> click;
 
-	public LambdaAjaxLink(String id, IModel<T> model, Consumer<TargetModel<T>> onClick) {
+	public LambdaAjaxLink(String id, IModel<T> model, AjaxAction<T> click) {
 		super(id, model);
-		this.onClick = onClick;
+		this.click = click;
 	}
 
-	public LambdaAjaxLink(String id, Consumer<TargetModel<T>> onClick) {
-		this(id, null, onClick);
+	public LambdaAjaxLink(String id, AjaxAction<T> click) {
+		this(id, null, click);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void onClick(AjaxRequestTarget target) {
-		onClick.accept(new TargetModel<T>(target, (IModel<T>) getDefaultModel()));
+		click.click(target, (IModel<T>) getDefaultModel());
 	}
 	
-	public static class TargetModel<T> implements Serializable {
-
-		private static final long serialVersionUID = 1L;
+	@FunctionalInterface
+	public interface AjaxAction<T> extends Serializable {
 		
-		public final transient AjaxRequestTarget target;
-		
-		public final IModel<T> model;
-
-		public TargetModel(AjaxRequestTarget target, IModel<T> model) {
-			super();
-			this.target = target;
-			this.model = model;
-		}
+		void click(AjaxRequestTarget target, IModel<T> model);
 		
 	}
 	

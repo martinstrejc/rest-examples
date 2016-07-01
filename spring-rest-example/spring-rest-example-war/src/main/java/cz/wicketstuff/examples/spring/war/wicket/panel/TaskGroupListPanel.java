@@ -55,23 +55,23 @@ public class TaskGroupListPanel extends Panel {
 		
 		List<IColumn<TaskGroup, Sort>> columns = new LinkedList<>();
 		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Created"), Sort.CREATED, "created"));
-		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (populating) -> {
-			Fragment fragment = new Fragment(populating.componentId, "nameFragment", TaskGroupListPanel.this);
-			Component link = new LambdaAjaxLink<Void>("link", targetModel -> {
+		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (cellItem, componentId, rowModel) -> {
+			Fragment fragment = new Fragment(componentId, "nameFragment", TaskGroupListPanel.this);
+			Component link = new LambdaAjaxLink<Void>("link", (ltarget, lmodel) -> {
 				// navigation
-				setResponsePage(new HomePage(Model.of(populating.rowModel)));
-			}).add(new Label("name", populating.rowModel.getObject().getName()));
+				setResponsePage(new HomePage(rowModel));
+			}).add(new Label("name", rowModel.getObject().getName()));
 			fragment.add(link);
-			populating.cellItem.add(fragment);						
+			cellItem.add(fragment);						
 		}));
-		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), populating -> {
-			Fragment fragment = new Fragment(populating.componentId, "actionFragment", TaskGroupListPanel.this);
-			fragment.add(new LambdaAjaxLink<Void>("delete", targetModel -> {
-				persistence.delete(populating.rowModel.getObject());
+		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), (cellItem, componentId, rowModel) -> {
+			Fragment fragment = new Fragment(componentId, "actionFragment", TaskGroupListPanel.this);
+			fragment.add(new LambdaAjaxLink<Void>("delete", (ltarget, lmodel) -> {
+				persistence.delete(rowModel.getObject());
 				// taskService.deleteTaskGroup(populating.rowModel.getObject());
 				setResponsePage(getWebPage());					
 			}));
-			populating.cellItem.add(fragment);			
+			cellItem.add(fragment);			
 		}));
 		ISortableDataProvider<TaskGroup, Sort> dataProvider = new SortableDataProvider<TaskGroup, Sort>() {
 
@@ -105,7 +105,7 @@ public class TaskGroupListPanel extends Panel {
 		final IModel<TaskGroup> taskModel = new CompoundPropertyModel<>(new TaskGroup());
 		Form<TaskGroup> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
-		form.add(new LambdaAjaxButton("submit", formAjax -> {
+		form.add(new LambdaAjaxButton("submit", (target, lform) -> {
 			persistence.save(taskModel.getObject());
 			// taskGroupDao.insert(taskModel.getObject());
 			// log.debug("taskGroup.id = {}", taskModel.getObject().getId());

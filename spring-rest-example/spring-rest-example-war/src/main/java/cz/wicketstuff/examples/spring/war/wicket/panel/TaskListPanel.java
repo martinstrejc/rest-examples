@@ -51,17 +51,17 @@ public class TaskListPanel extends Panel {
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Name"), Sort.NAME, "name"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Priority"), Sort.PRIORITY, "priority"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Status"), Sort.STATUS, "status"));
-		columns.add(new LambdaColumn<Task, Sort>(Model.of("Action"), populating -> {
-			Fragment fragment = new Fragment(populating.componentId, "actionFragment", TaskListPanel.this);
-			fragment.add(new LambdaAjaxLink<Void>("delete", targetModel -> {
-				persistence.delete(populating.rowModel.getObject());
+		columns.add(new LambdaColumn<Task, Sort>(Model.of("Action"), (cellItem, componentId, rowModel) -> {
+			Fragment fragment = new Fragment(componentId, "actionFragment", TaskListPanel.this);
+			fragment.add(new LambdaAjaxLink<Void>("delete", (ltarget, lmodel) -> {
+				persistence.delete(rowModel.getObject());
 				setResponsePage(getWebPage());					
 			}));
-			populating.cellItem.add(fragment);			
+			cellItem.add(fragment);			
 		}));
 		
-		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<>(iteration -> {
-			SortParam<Sort> sorting = iteration.provider.getSort();
+		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<>((first, count, provider) -> {
+			SortParam<Sort> sorting = provider.getSort();
 			return persistence.getAll(model.getObject(), sorting.getProperty()).iterator();
 			}, () -> {return 0L;});
 		
@@ -73,7 +73,7 @@ public class TaskListPanel extends Panel {
 		Form<Task> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
 		form.add(new TextField<Integer>("priority"));
-		form.add(new LambdaAjaxButton("submit", formAjax -> {
+		form.add(new LambdaAjaxButton("submit", (target, lform) -> {
 			taskModel.getObject().setTaskGroup(model.getObject());
 			persistence.save(taskModel.getObject());
 			taskModel.setObject(new Task());

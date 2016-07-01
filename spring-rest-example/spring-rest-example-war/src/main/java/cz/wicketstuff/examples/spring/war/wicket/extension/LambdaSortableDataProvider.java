@@ -18,8 +18,6 @@ package cz.wicketstuff.examples.spring.war.wicket.extension;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
@@ -33,12 +31,12 @@ public class LambdaSortableDataProvider<T extends Serializable, S> extends Sorta
 
 	private static final long serialVersionUID = 1L;
 
-	private final Function<Iteration<T, S>, Iterator<? extends T>> iterator;
+	private final IteratorFunction<T, S> iterator;
 	
-	private final Supplier<Long> size;
+	private final SizeFunction size;
 	
 	public LambdaSortableDataProvider(
-			Function<Iteration<T, S>, Iterator<? extends T>> iterator, Supplier<Long> size) {
+			IteratorFunction<T, S> iterator, SizeFunction size) {
 		super();
 		this.iterator = iterator;
 		this.size = size;
@@ -46,7 +44,7 @@ public class LambdaSortableDataProvider<T extends Serializable, S> extends Sorta
 
 	@Override
 	public Iterator<? extends T> iterator(long first, long count) {
-		return iterator.apply(new Iteration<T, S>(first, count, this));
+		return iterator.iterator(first, count, this);
 	}
 
 	@Override
@@ -56,28 +54,21 @@ public class LambdaSortableDataProvider<T extends Serializable, S> extends Sorta
 
 	@Override
 	public long size() {
-		return size.get();
+		return size.size();
 	}
 	
-	public static class Iteration<T, S> implements Serializable {
+	@FunctionalInterface
+	public interface IteratorFunction<T extends Serializable, S> extends Serializable {
 		
-		private static final long serialVersionUID = 1L;
+		Iterator<? extends T> iterator(long first, long count, SortableDataProvider<T, S> provider);
+		
+	} 
 
-		public final long first;
+	@FunctionalInterface
+	public interface SizeFunction extends Serializable {
 		
-		public final long count;
+		long size();
 		
-		public final SortableDataProvider<T, S> provider;
-
-		public Iteration(long first, long count,
-				SortableDataProvider<T, S> provider) {
-			super();
-			this.first = first;
-			this.count = count;
-			this.provider = provider;
-		}
-		
-		
-	}
+	} 
 
 }

@@ -5,7 +5,9 @@ import java.util.List;
 
 
 
+
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
@@ -19,6 +21,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
 
 
 
@@ -46,6 +49,12 @@ public class TaskListPanel extends Panel {
 	public TaskListPanel(String id, final IModel<TaskGroup> model) {
 		super(id, model);
 		
+		add(newTaskTable(model));
+		add(newTaskAddForm(model));
+				
+	}
+	
+	protected DataTable<Task, Sort> newTaskTable(final IModel<TaskGroup> taskGroupModel) {
 		List<IColumn<Task, Sort>> columns = new LinkedList<>();
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("ID"), Sort.ID, "id"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Name"), Sort.NAME, "name"));
@@ -60,27 +69,30 @@ public class TaskListPanel extends Panel {
 			cellItem.add(fragment);			
 		}));
 		
-		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<>((first, count, provider) -> {
-			SortParam<Sort> sorting = provider.getSort();
-			return persistence.getAll(model.getObject(), sorting.getProperty()).iterator();
-			}, () -> {return 0L;});
+		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<>(
+				(first, count, provider) -> {
+					SortParam<Sort> sorting = provider.getSort();
+					return persistence.getAll(taskGroupModel.getObject(), sorting.getProperty()).iterator();
+				},
+				() -> { return persistence.countAll(taskGroupModel.getObject()); } 
+		);	
 		
 		dataProvider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
-		DefaultDataTable<Task, Sort> table = new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);
-		add(table);
-		
+		return new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);		
+	}
+	
+	protected Form<Task> newTaskAddForm(final IModel<TaskGroup> taskGroupModel) {
 		final IModel<Task> taskModel = new CompoundPropertyModel<>(new Task());
 		Form<Task> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
 		form.add(new TextField<Integer>("priority"));
 		form.add(new LambdaAjaxButton("submit", (target, lform) -> {
-			taskModel.getObject().setTaskGroup(model.getObject());
+			taskModel.getObject().setTaskGroup(taskGroupModel.getObject());
 			persistence.save(taskModel.getObject());
 			taskModel.setObject(new Task());
-			setResponsePage(new HomePage(model));
+			setResponsePage(new HomePage(taskGroupModel));
 		}, null));
-		add(form);
-				
+		return form;
 	}
 
 }

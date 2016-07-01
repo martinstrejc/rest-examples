@@ -1,17 +1,13 @@
 package cz.wicketstuff.examples.spring.war.wicket.panel;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
-import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -26,8 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup.Sort;
-import cz.wicketstuff.examples.spring.core.service.TaskService;
 import cz.wicketstuff.examples.spring.persistence.service.TaskGroupPersistenceService;
+import cz.wicketstuff.examples.spring.war.wicket.data.TaskGroupDataProvider;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxLink;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
@@ -45,14 +41,17 @@ public class TaskGroupListPanel extends Panel {
 	private static final Logger log = LoggerFactory.getLogger(TaskGroupListPanel.class);
 	
 	@SpringBean
-	private TaskService taskService;
-	
-	@SpringBean
 	private TaskGroupPersistenceService persistence;
 
 	public TaskGroupListPanel(String id, IModel<?> model) {
 		super(id, model);
 		
+		add(newTaskGroupTable());
+		add(newTaskGroupAddForm());
+				
+	}
+	
+	protected DataTable<TaskGroup, Sort> newTaskGroupTable() {
 		List<IColumn<TaskGroup, Sort>> columns = new LinkedList<>();
 		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Created"), Sort.CREATED, "created"));
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (cellItem, componentId, rowModel) -> {
@@ -68,53 +67,22 @@ public class TaskGroupListPanel extends Panel {
 			Fragment fragment = new Fragment(componentId, "actionFragment", TaskGroupListPanel.this);
 			fragment.add(new LambdaAjaxLink<Void>("delete", (ltarget, lmodel) -> {
 				persistence.delete(rowModel.getObject());
-				// taskService.deleteTaskGroup(populating.rowModel.getObject());
 				setResponsePage(getWebPage());					
 			}));
 			cellItem.add(fragment);			
 		}));
-		ISortableDataProvider<TaskGroup, Sort> dataProvider = new SortableDataProvider<TaskGroup, Sort>() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Iterator<? extends TaskGroup> iterator(long first, long count) {
-				SortParam<Sort> sorting = getSort();
-				// return taskGroupDao.selectAll().iterator();
-				return persistence.getAll(sorting.getProperty()).iterator();
-				// return taskService.getTaskGroups(sorting.getProperty(), sorting.isAscending()).iterator();
-			}
-
-			@Override
-			public IModel<TaskGroup> model(TaskGroup object) {
-				return Model.of(object);
-			}
-
-			@Override
-			public long size() {
-				return persistence.getAll(getSort().getProperty()).size();
-				// return persistence.getAll(getSort().getProperty()).;
-				// return taskService.getTaskGroupsCount();
-			}
-			
-		};
-		dataProvider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
-		DefaultDataTable<TaskGroup, Sort> table = new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);
-		add(table);
-		
+		return new DefaultDataTable<>("table", columns, TaskGroupDataProvider.createDetault(persistence), Integer.MAX_VALUE);
+	}
+	
+	protected Form<TaskGroup> newTaskGroupAddForm() {
 		final IModel<TaskGroup> taskModel = new CompoundPropertyModel<>(new TaskGroup());
 		Form<TaskGroup> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
 		form.add(new LambdaAjaxButton("submit", (target, lform) -> {
 			persistence.save(taskModel.getObject());
-			// taskGroupDao.insert(taskModel.getObject());
-			// log.debug("taskGroup.id = {}", taskModel.getObject().getId());
-			/// taskService.createTaskGroup(taskModel.getObject());
-			taskModel.setObject(new TaskGroup());
-			setResponsePage(getWebPage());
+			setResponsePage(new HomePage(Model.of(taskModel.getObject())));
 		}, null));
-		add(form);
-				
+		return form;
 	}
 
 }

@@ -63,6 +63,11 @@ public class TaskGroupPersistenceServiceImpl implements TaskGroupPersistenceServ
 	}
 
 	@Override
+	public long countAll() {
+		return dao.countAll();
+	}
+	
+	@Override
 	public TaskGroup get(long id) {
 		return dao.selectById(id);
 	}

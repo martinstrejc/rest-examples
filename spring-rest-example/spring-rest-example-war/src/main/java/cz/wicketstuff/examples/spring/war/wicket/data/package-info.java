@@ -14,30 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.wicketstuff.examples.spring.persistence.service;
-
-import java.util.List;
-
-import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
-
 /**
  * @author Martin Strejc (strma17)
  *
  */
-public interface TaskGroupPersistenceService {
-	
-	boolean save(TaskGroup taskGroup);
-	
-	List<TaskGroup> getAll(TaskGroup.Sort sort);
-
-	long countAll();
-	
-	TaskGroup get(long id);
-	
-	TaskGroup getByUuid(String uuid);
-	
-	TaskGroup getExt(long id);
-	
-	boolean delete(TaskGroup taskGroup);
-
-}
+package cz.wicketstuff.examples.spring.war.wicket.data;

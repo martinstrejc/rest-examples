@@ -28,6 +28,9 @@ public interface TaskGroupDao {
 	@ResultMap("taskGroupExt")
 	List<TaskGroup> selectAllExt();
 
+	@Select("SELECT count(*) FROM task_group t")
+	long countAll();
+
 	@Insert("INSERT INTO task_group (name, created, uuid) VALUES (#{name}, #{created}, #{uuidString})")
 	@SelectKey(
 			before = false, 

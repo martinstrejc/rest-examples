@@ -79,7 +79,7 @@ public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 
 	@Override
 	public long countAll(TaskGroup taskGroup) {
-		return dao.countAll(taskGroup.getId());
+		return taskGroup != null && taskGroup.getId() != null ? dao.countAll(taskGroup.getId()) : 0;
 	}
 
 }

@@ -28,7 +28,7 @@ public interface TaskDao {
 	@ResultMap("taskExt")
 	List<Task> selectAllExt();
 
-	@Select("SELECT count(*) FROM task t WHERE t.task_group_id = #{taskGroupId} ORDER BY t.created")
+	@Select("SELECT count(*) FROM task t WHERE t.task_group_id = #{taskGroupId}")
 	long countAll(long taskGroupId);
 	
 

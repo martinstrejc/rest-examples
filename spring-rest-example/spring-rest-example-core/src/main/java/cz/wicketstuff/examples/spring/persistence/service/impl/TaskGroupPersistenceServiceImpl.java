@@ -58,8 +58,8 @@ public class TaskGroupPersistenceServiceImpl implements TaskGroupPersistenceServ
 	}
 
 	@Override
-	public List<TaskGroup> getAll(Sort sort) {
-		return dao.selectAll();
+	public List<TaskGroup> getAll(Sort sort, boolean ascending) {
+		return dao.selectAll(TaskGroupDao.sqlSort(sort, ascending));
 	}
 
 	@Override

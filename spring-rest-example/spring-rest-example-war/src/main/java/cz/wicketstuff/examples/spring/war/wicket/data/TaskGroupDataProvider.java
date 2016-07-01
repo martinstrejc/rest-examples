@@ -46,7 +46,7 @@ public class TaskGroupDataProvider extends SortableDataProvider<TaskGroup, Sort>
 	@Override
 	public Iterator<? extends TaskGroup> iterator(long first, long count) {
 		SortParam<Sort> sorting = getSort();
-		return persistence.getAll(sorting.getProperty()).iterator();
+		return persistence.getAll(sorting.getProperty(), sorting.isAscending()).iterator();
 	}
 
 	@Override

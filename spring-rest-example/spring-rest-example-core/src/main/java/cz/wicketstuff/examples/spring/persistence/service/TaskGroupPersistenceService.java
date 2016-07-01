@@ -28,7 +28,7 @@ public interface TaskGroupPersistenceService {
 	
 	boolean save(TaskGroup taskGroup);
 	
-	List<TaskGroup> getAll(TaskGroup.Sort sort);
+	List<TaskGroup> getAll(TaskGroup.Sort sort, boolean ascending);
 
 	long countAll();
 	

@@ -18,7 +18,7 @@ package cz.wicketstuff.examples.spring.war.wicket.extension;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
@@ -33,12 +33,12 @@ public class LambdaSortableDataProvider<T extends Serializable, S> extends Sorta
 
 	private static final long serialVersionUID = 1L;
 
-	private final BiFunction<Long, Long, Iterator<? extends T>> iterator;
+	private final Function<Iteration<T, S>, Iterator<? extends T>> iterator;
 	
 	private final Supplier<Long> size;
 	
 	public LambdaSortableDataProvider(
-			BiFunction<Long, Long, Iterator<? extends T>> iterator, Supplier<Long> size) {
+			Function<Iteration<T, S>, Iterator<? extends T>> iterator, Supplier<Long> size) {
 		super();
 		this.iterator = iterator;
 		this.size = size;
@@ -46,7 +46,7 @@ public class LambdaSortableDataProvider<T extends Serializable, S> extends Sorta
 
 	@Override
 	public Iterator<? extends T> iterator(long first, long count) {
-		return iterator.apply(first, count);
+		return iterator.apply(new Iteration<T, S>(first, count, this));
 	}
 
 	@Override
@@ -57,6 +57,25 @@ public class LambdaSortableDataProvider<T extends Serializable, S> extends Sorta
 	@Override
 	public long size() {
 		return size.get();
+	}
+	
+	public static class Iteration<T, S> {
+		
+		public final long first;
+		
+		public final long count;
+		
+		public final SortableDataProvider<T, S> provider;
+
+		public Iteration(long first, long count,
+				SortableDataProvider<T, S> provider) {
+			super();
+			this.first = first;
+			this.count = count;
+			this.provider = provider;
+		}
+		
+		
 	}
 
 }

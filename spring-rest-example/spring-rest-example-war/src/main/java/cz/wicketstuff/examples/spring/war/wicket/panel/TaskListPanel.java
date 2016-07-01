@@ -1,6 +1,5 @@
 package cz.wicketstuff.examples.spring.war.wicket.panel;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
-import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Fragment;
@@ -63,8 +61,8 @@ public class TaskListPanel extends Panel {
 			populating.cellItem.add(fragment);			
 		}));
 		
-		final LambdaSortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<Task, Task.Sort>((first, count) -> {
-			SortParam<Sort> sorting = dataProvider.getSort();
+		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<Task, Task.Sort>((iteration) -> {
+			SortParam<Sort> sorting = iteration.provider.getSort();
 			// return (Iterator<Task>)null;
 			return persistence.getAll(model.getObject(), sorting.getProperty()).iterator();
 			}, () -> {return 0L;});

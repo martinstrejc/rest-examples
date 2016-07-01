@@ -31,14 +31,14 @@ import cz.wicketstuff.examples.spring.war.wicket.page.HomePage;
  * @author Martin Strejc (strma17)
  *
  */
-public class TaskListPanel extends Panel {
+public class TaskPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	
 	@SpringBean
 	private TaskPersistenceService persistence;
 
-	public TaskListPanel(String id, final IModel<TaskGroup> model) {
+	public TaskPanel(String id, final IModel<TaskGroup> model) {
 		super(id, model);
 		
 		add(newTaskTable(model));
@@ -53,7 +53,7 @@ public class TaskListPanel extends Panel {
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Priority"), Sort.PRIORITY, "priority"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Status"), Sort.STATUS, "status"));
 		columns.add(new LambdaColumn<Task, Sort>(Model.of("Action"), (cellItem, componentId, rowModel) -> {
-			Fragment fragment = new Fragment(componentId, "actionFragment", TaskListPanel.this);
+			Fragment fragment = new Fragment(componentId, "actionFragment", TaskPanel.this);
 			fragment.add(new LambdaAjaxLink<Void>("delete", (ltarget, lmodel) -> {
 				persistence.delete(rowModel.getObject());
 				setResponsePage(getWebPage());					

@@ -34,16 +34,16 @@ import cz.wicketstuff.examples.spring.war.wicket.page.HomePage;
  * @author Martin Strejc (strma17)
  *
  */
-public class TaskGroupListPanel extends Panel {
+public class TaskGroupPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger log = LoggerFactory.getLogger(TaskGroupListPanel.class);
+	private static final Logger log = LoggerFactory.getLogger(TaskGroupPanel.class);
 	
 	@SpringBean
 	private TaskGroupPersistenceService persistence;
 
-	public TaskGroupListPanel(String id, IModel<?> model) {
+	public TaskGroupPanel(String id, IModel<?> model) {
 		super(id, model);
 		
 		add(newTaskGroupTable());
@@ -55,7 +55,7 @@ public class TaskGroupListPanel extends Panel {
 		List<IColumn<TaskGroup, Sort>> columns = new LinkedList<>();
 		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Created"), Sort.CREATED, "created"));
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (cellItem, componentId, rowModel) -> {
-			Fragment fragment = new Fragment(componentId, "nameFragment", TaskGroupListPanel.this);
+			Fragment fragment = new Fragment(componentId, "nameFragment", TaskGroupPanel.this);
 			Component link = new LambdaAjaxLink<Void>("link", (ltarget, lmodel) -> {
 				// navigation
 				setResponsePage(new HomePage(rowModel));
@@ -64,7 +64,7 @@ public class TaskGroupListPanel extends Panel {
 			cellItem.add(fragment);						
 		}));
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), (cellItem, componentId, rowModel) -> {
-			Fragment fragment = new Fragment(componentId, "actionFragment", TaskGroupListPanel.this);
+			Fragment fragment = new Fragment(componentId, "actionFragment", TaskGroupPanel.this);
 			fragment.add(new LambdaAjaxLink<Void>("delete", (ltarget, lmodel) -> {
 				persistence.delete(rowModel.getObject());
 				setResponsePage(getWebPage());					

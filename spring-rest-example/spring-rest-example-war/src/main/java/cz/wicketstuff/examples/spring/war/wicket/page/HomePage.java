@@ -13,8 +13,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.persistence.service.TaskGroupPersistenceService;
-import cz.wicketstuff.examples.spring.war.wicket.panel.TaskGroupListPanel;
-import cz.wicketstuff.examples.spring.war.wicket.panel.TaskListPanel;
+import cz.wicketstuff.examples.spring.war.wicket.panel.TaskGroupPanel;
+import cz.wicketstuff.examples.spring.war.wicket.panel.TaskPanel;
 
 /**
  * @author Martin Strejc (strma17)
@@ -48,8 +48,8 @@ public class HomePage extends AbstractExamplePage {
 		super.onInitialize();
 		IModel<TaskGroup> model = (IModel<TaskGroup>)getDefaultModel();
 		add(new Label("groupName", PropertyModel.of(model, "name")));				
-		add(new TaskGroupListPanel("taskGroupListPanel", new Model<>()));
-		add(new TaskListPanel("taskListPanel", model));
+		add(new TaskGroupPanel("taskGroupPanel", model));
+		add(new TaskPanel("taskPanel", model));
 		
 		WebMarkupContainer taskGroup = new WebMarkupContainer("taskGroup", CompoundPropertyModel.of(model)) {
 

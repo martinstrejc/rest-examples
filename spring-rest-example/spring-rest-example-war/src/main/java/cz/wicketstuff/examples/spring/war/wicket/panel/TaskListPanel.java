@@ -3,16 +3,10 @@ package cz.wicketstuff.examples.spring.war.wicket.panel;
 import java.util.LinkedList;
 import java.util.List;
 
-
-
-
-import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Fragment;
@@ -22,16 +16,14 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-
-
-
 import cz.wicketstuff.examples.spring.core.domain.Task;
 import cz.wicketstuff.examples.spring.core.domain.Task.Sort;
 import cz.wicketstuff.examples.spring.core.domain.TaskGroup;
 import cz.wicketstuff.examples.spring.persistence.service.TaskPersistenceService;
+import cz.wicketstuff.examples.spring.war.wicket.data.TaskDataProvider;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxButton;
 import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaAjaxLink;
-import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaSortableDataProvider;
+import cz.wicketstuff.examples.spring.war.wicket.extension.LambdaColumn;
 import cz.wicketstuff.examples.spring.war.wicket.page.HomePage;
 
 
@@ -69,16 +61,7 @@ public class TaskListPanel extends Panel {
 			cellItem.add(fragment);			
 		}));
 		
-		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<>(
-				(first, count, provider) -> {
-					SortParam<Sort> sorting = provider.getSort();
-					return persistence.getAll(taskGroupModel.getObject(), sorting.getProperty()).iterator();
-				},
-				() -> { return persistence.countAll(taskGroupModel.getObject()); } 
-		);	
-		
-		dataProvider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
-		return new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);		
+		return new DefaultDataTable<>("table", columns, TaskDataProvider.createDefault(persistence, taskGroupModel), Integer.MAX_VALUE);		
 	}
 	
 	protected Form<Task> newTaskAddForm(final IModel<TaskGroup> taskGroupModel) {

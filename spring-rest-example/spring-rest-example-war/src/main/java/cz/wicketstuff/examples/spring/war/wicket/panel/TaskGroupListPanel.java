@@ -58,7 +58,7 @@ public class TaskGroupListPanel extends Panel {
 		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Created"), Sort.CREATED, "created"));
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (populating) -> {
 			Fragment fragment = new Fragment(populating.componentId, "nameFragment", TaskGroupListPanel.this);
-			Component link = new LambdaAjaxLink<Void>("link", (target, linkModel) -> {
+			Component link = new LambdaAjaxLink<Void>("link", (targetModel) -> {
 				// navigation
 				setResponsePage(new HomePage(Model.of(populating.rowModel)));
 			}).add(new Label("name", populating.rowModel.getObject().getName()));
@@ -67,7 +67,7 @@ public class TaskGroupListPanel extends Panel {
 		}));
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), (populating) -> {
 			Fragment fragment = new Fragment(populating.componentId, "actionFragment", TaskGroupListPanel.this);
-			fragment.add(new LambdaAjaxLink<Void>("delete", (target, linkModel) -> {
+			fragment.add(new LambdaAjaxLink<Void>("delete", (targetModel) -> {
 				persistence.delete(populating.rowModel.getObject());
 				// taskService.deleteTaskGroup(populating.rowModel.getObject());
 				setResponsePage(getWebPage());					
@@ -106,7 +106,7 @@ public class TaskGroupListPanel extends Panel {
 		final IModel<TaskGroup> taskModel = new CompoundPropertyModel<>(new TaskGroup());
 		Form<TaskGroup> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
-		form.add(new LambdaAjaxButton("submit", (target, buttonForm) -> {
+		form.add(new LambdaAjaxButton("submit", (formAjax) -> {
 			persistence.save(taskModel.getObject());
 			// taskGroupDao.insert(taskModel.getObject());
 			// log.debug("taskGroup.id = {}", taskModel.getObject().getId());

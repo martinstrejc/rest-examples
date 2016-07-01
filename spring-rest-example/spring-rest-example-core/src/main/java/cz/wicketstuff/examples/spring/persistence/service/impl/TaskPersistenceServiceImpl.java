@@ -77,4 +77,9 @@ public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 		return dao.delete(task.getId()) > 0;
 	}
 
+	@Override
+	public long countAll(TaskGroup taskGroup) {
+		return dao.countAll(taskGroup.getId());
+	}
+
 }

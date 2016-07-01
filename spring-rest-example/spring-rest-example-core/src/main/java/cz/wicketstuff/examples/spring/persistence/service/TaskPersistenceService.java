@@ -34,5 +34,7 @@ public interface TaskPersistenceService {
 	Task get(long id);
 	
 	boolean delete(Task task);
+	
+	long countAll(TaskGroup taskGroup);
 
 }

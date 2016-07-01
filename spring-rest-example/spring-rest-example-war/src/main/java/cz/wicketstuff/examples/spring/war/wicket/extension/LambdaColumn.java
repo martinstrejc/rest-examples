@@ -16,6 +16,7 @@
  */
 package cz.wicketstuff.examples.spring.war.wicket.extension;
 
+import java.io.Serializable;
 import java.util.function.Consumer;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
@@ -49,7 +50,9 @@ public class LambdaColumn<T, S> extends AbstractColumn<T, S> {
 		populator.accept(new Populating<T>(cellItem, componentId, rowModel));
 	}
 	
-	public static class Populating<T> {
+	public static class Populating<T> implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
 		
 		public final Item<ICellPopulator<T>> cellItem;
 		public final String componentId;

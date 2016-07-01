@@ -59,8 +59,10 @@ public class LambdaSortableDataProvider<T extends Serializable, S> extends Sorta
 		return size.get();
 	}
 	
-	public static class Iteration<T, S> {
+	public static class Iteration<T, S> implements Serializable {
 		
+		private static final long serialVersionUID = 1L;
+
 		public final long first;
 		
 		public final long count;

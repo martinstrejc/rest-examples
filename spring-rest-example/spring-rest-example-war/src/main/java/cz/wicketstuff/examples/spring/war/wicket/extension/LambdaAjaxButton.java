@@ -16,7 +16,8 @@
  */
 package cz.wicketstuff.examples.spring.war.wicket.extension;
 
-import java.util.function.BiConsumer;
+import java.io.Serializable;
+import java.util.function.Consumer;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -35,39 +36,38 @@ public class LambdaAjaxButton extends AjaxButton {
 	
 	private static final Logger log = LoggerFactory.getLogger(LambdaAjaxButton.class);
 	
-	
-	private final BiConsumer<AjaxRequestTarget, Form<?>> onSubmit;
-	private final BiConsumer<AjaxRequestTarget, Form<?>> onError;
+	private final Consumer<FormAjax> onSubmit;
+	private final Consumer<FormAjax> onError;
 
-	public LambdaAjaxButton(String id, Form<?> form, BiConsumer<AjaxRequestTarget, Form<?>> onSubmit, BiConsumer<AjaxRequestTarget, Form<?>> onError) {
+	public LambdaAjaxButton(String id, Form<?> form, Consumer<FormAjax> onSubmit, Consumer<FormAjax> onError) {
 		super(id, form);
 		this.onSubmit = onSubmit;
 		this.onError = onError;
 		checkExecutors(id, onSubmit, onError);
 	}
 
-	public LambdaAjaxButton(String id, IModel<String> model, Form<?> form, BiConsumer<AjaxRequestTarget, Form<?>> onSubmit, BiConsumer<AjaxRequestTarget, Form<?>> onError) {
+	public LambdaAjaxButton(String id, IModel<String> model, Form<?> form, Consumer<FormAjax> onSubmit, Consumer<FormAjax> onError) {
 		super(id, model, form);
 		this.onSubmit = onSubmit;
 		this.onError = onError;
 		checkExecutors(id, onSubmit, onError);
 	}
 
-	public LambdaAjaxButton(String id, IModel<String> model, BiConsumer<AjaxRequestTarget, Form<?>> onSubmit, BiConsumer<AjaxRequestTarget, Form<?>> onError) {
+	public LambdaAjaxButton(String id, IModel<String> model, Consumer<FormAjax> onSubmit, Consumer<FormAjax> onError) {
 		super(id, model);
 		this.onSubmit = onSubmit;
 		this.onError = onError;
 		checkExecutors(id, onSubmit, onError);
 	}
 
-	public LambdaAjaxButton(String id, BiConsumer<AjaxRequestTarget, Form<?>> onSubmit, BiConsumer<AjaxRequestTarget, Form<?>> onError) {
+	public LambdaAjaxButton(String id, Consumer<FormAjax> onSubmit, Consumer<FormAjax> onError) {
 		super(id);
 		this.onSubmit = onSubmit;
 		this.onError = onError;
 		checkExecutors(id, onSubmit, onError);
 	}
 	
-	private void checkExecutors(String id, BiConsumer<AjaxRequestTarget, Form<?>> onSubmit, BiConsumer<AjaxRequestTarget, Form<?>> onError) {
+	private void checkExecutors(String id, Consumer<FormAjax> onSubmit, Consumer<FormAjax> onError) {
 		if (onSubmit == null) {
 			log.warn("onSubmit is null for component {}", id);
 		}
@@ -79,15 +79,31 @@ public class LambdaAjaxButton extends AjaxButton {
 	@Override
 	protected final void onSubmit(AjaxRequestTarget target, Form<?> form) {
 		if (onSubmit != null) {
-			onSubmit.accept(target, form);
+			onSubmit.accept(new FormAjax(target, form));
 		}
 	}
 	
 	@Override
 	protected final void onError(AjaxRequestTarget target, Form<?> form) {
 		if (onError != null) {
-			onError.accept(target, form);
+			onError.accept(new FormAjax(target, form));
 		}
+	}
+	
+	public static class FormAjax implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+		
+		public final transient AjaxRequestTarget target;
+		
+		public final Form<?> form;
+
+		public FormAjax(AjaxRequestTarget target, Form<?> form) {
+			super();
+			this.target = target;
+			this.form = form;
+		}
+		
 	}
 
 }

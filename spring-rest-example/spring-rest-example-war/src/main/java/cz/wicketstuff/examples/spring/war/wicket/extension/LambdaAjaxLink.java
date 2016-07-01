@@ -16,7 +16,8 @@
  */
 package cz.wicketstuff.examples.spring.war.wicket.extension;
 
-import java.util.function.BiConsumer;
+import java.io.Serializable;
+import java.util.function.Consumer;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -30,23 +31,38 @@ public class LambdaAjaxLink<T> extends AjaxLink<T> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final BiConsumer<AjaxRequestTarget, IModel<T>> onClick;
+	private final Consumer<TargetModel<T>> onClick;
 
-	public LambdaAjaxLink(String id, IModel<T> model, BiConsumer<AjaxRequestTarget, IModel<T>> onClick) {
+	public LambdaAjaxLink(String id, IModel<T> model, Consumer<TargetModel<T>> onClick) {
 		super(id, model);
 		this.onClick = onClick;
 	}
 
-	public LambdaAjaxLink(String id, BiConsumer<AjaxRequestTarget, IModel<T>> onClick) {
+	public LambdaAjaxLink(String id, Consumer<TargetModel<T>> onClick) {
 		this(id, null, onClick);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void onClick(AjaxRequestTarget target) {
-		onClick.accept(target, (IModel<T>) getDefaultModel());
+		onClick.accept(new TargetModel<T>(target, (IModel<T>) getDefaultModel()));
 	}
 	
+	public static class TargetModel<T> implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+		
+		public final transient AjaxRequestTarget target;
+		
+		public final IModel<T> model;
+
+		public TargetModel(AjaxRequestTarget target, IModel<T> model) {
+			super();
+			this.target = target;
+			this.model = model;
+		}
+		
+	}
 	
 
 }

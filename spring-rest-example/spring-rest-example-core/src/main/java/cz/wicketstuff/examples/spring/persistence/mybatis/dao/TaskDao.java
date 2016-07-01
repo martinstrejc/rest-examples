@@ -28,6 +28,10 @@ public interface TaskDao {
 	@ResultMap("taskExt")
 	List<Task> selectAllExt();
 
+	@Select("SELECT count(*) FROM task t WHERE t.task_group_id = #{taskGroupId} ORDER BY t.created")
+	long countAll(long taskGroupId);
+	
+
 	@Insert("INSERT INTO task (name, created, uuid, status, task_group_id) VALUES (#{name}, #{created}, #{uuidString}, #{status}, #{taskGroup.id})")
 	@SelectKey(
 			before = false, 
@@ -57,5 +61,7 @@ public interface TaskDao {
 	@Select("SELECT t.*, tg.id as tg_id, tg.name as tg_name, tg.created as tg_created, tg.uuid as tg_uuid FROM task t LEFT JOIN task_group tg ON (tg.id = t.task_group_id) WHERE t.id = #{uuidString}")
 	@ResultMap("taskExt")
 	Task selectByUuidExt(String uuidString);
+	
+	
 
 }

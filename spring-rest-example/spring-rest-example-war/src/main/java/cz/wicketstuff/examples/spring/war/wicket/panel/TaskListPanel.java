@@ -53,43 +53,18 @@ public class TaskListPanel extends Panel {
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Status"), Sort.STATUS, "status"));
 		columns.add(new LambdaColumn<Task, Sort>(Model.of("Action"), (populating) -> {
 			Fragment fragment = new Fragment(populating.componentId, "actionFragment", TaskListPanel.this);
-			fragment.add(new LambdaAjaxLink<Void>("delete", (target, linkModel) -> {
+			fragment.add(new LambdaAjaxLink<Void>("delete", (targetModel) -> {
 				persistence.delete(populating.rowModel.getObject());
-				// taskService.deleteTask(populating.rowModel.getObject());
 				setResponsePage(getWebPage());					
 			}));
 			populating.cellItem.add(fragment);			
 		}));
 		
-		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<Task, Task.Sort>((iteration) -> {
+		ISortableDataProvider<Task, Sort> dataProvider = new LambdaSortableDataProvider<>((iteration) -> {
 			SortParam<Sort> sorting = iteration.provider.getSort();
-			// return (Iterator<Task>)null;
 			return persistence.getAll(model.getObject(), sorting.getProperty()).iterator();
 			}, () -> {return 0L;});
 		
-		/*
-		ISortableDataProvider<Task, Sort> dataProvider = new SortableDataProvider<Task, Sort>() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Iterator<? extends Task> iterator(long first, long count) {
-				// return taskService.getTasks(model.getObject(), sorting.getProperty(), sorting.isAscending()).iterator();
-			}
-
-			@Override
-			public IModel<Task> model(Task object) {
-				return Model.of(object);
-			}
-
-			@Override
-			public long size() {
-				SortParam<Sort> sorting = getSort();
-				return persistence.getAll(model.getObject(), sorting.getProperty()).size();
-				// return taskService.getTasksCount(model.getObject());
-			}
-			
-		};*/
 		dataProvider.getSortState().setPropertySortOrder(Sort.ID, SortOrder.ASCENDING);
 		DefaultDataTable<Task, Sort> table = new DefaultDataTable<>("table", columns, dataProvider, Integer.MAX_VALUE);
 		add(table);
@@ -98,7 +73,7 @@ public class TaskListPanel extends Panel {
 		Form<Task> form = new Form<>("form", taskModel);
 		form.add(new TextField<String>("name"));
 		form.add(new TextField<Integer>("priority"));
-		form.add(new LambdaAjaxButton("submit", (target, buttonForm) -> {
+		form.add(new LambdaAjaxButton("submit", (formAjax) -> {
 			taskModel.getObject().setTaskGroup(model.getObject());
 			persistence.save(taskModel.getObject());
 			taskModel.setObject(new Task());

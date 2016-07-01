@@ -25,7 +25,7 @@ public interface TaskDao {
 	@ResultMap("task")
 	List<Task> selectAll(@Param("taskGroupId") long taskGroupId, @Param("sqlSort") String sqlSort);
 
-	@Select("SELECT tg.*, t.id as t_id, t.name as t_name, t.created as t_created, t.uuid as t_uuid FROM task_group tg LEFT JOIN task t ON (t.task_group_id = tg.id) ORDER BY tg.created")
+	@Select("SELECT tg.*, t.id as t_id, t.name as t_name, t.created as t_created, t.uuid as t_uuid, t.priority as t_priority, t.status as t_status FROM task_group tg LEFT JOIN task t ON (t.task_group_id = tg.id) ORDER BY tg.created")
 	@ResultMap("taskExt")
 	List<Task> selectAllExt();
 
@@ -33,7 +33,7 @@ public interface TaskDao {
 	long countAll(long taskGroupId);
 	
 
-	@Insert("INSERT INTO task (name, created, uuid, status, task_group_id) VALUES (#{name}, #{created}, #{uuidString}, #{status}, #{taskGroup.id})")
+	@Insert("INSERT INTO task (name, created, uuid, status, priority, task_group_id) VALUES (#{name}, #{created}, #{uuidString}, #{status}, #{priority}, #{taskGroup.id})")
 	@SelectKey(
 			before = false, 
 			keyColumn = "id", 

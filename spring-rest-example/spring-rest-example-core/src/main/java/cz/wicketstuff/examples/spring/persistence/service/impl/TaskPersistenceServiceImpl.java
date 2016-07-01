@@ -52,6 +52,7 @@ public class TaskPersistenceServiceImpl implements TaskPersistenceService {
 			task.setCreated(new Date());
 			task.setUuid(UUID.randomUUID());
 			task.setStatus(Status.NEW);
+			task.useDefaults();
 			long id = dao.insert(task);
 			task.setId(id);
 			return true;

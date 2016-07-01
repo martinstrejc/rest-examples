@@ -11,6 +11,8 @@ public class Task extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static final Integer DEFAULT_PRIORITY = 10;
+	
 	private Status status;
 	
 	private Integer priority;
@@ -50,7 +52,13 @@ public class Task extends AbstractDomainObject {
 
 	public void setTaskGroup(TaskGroup taskGroup) {
 		this.taskGroup = taskGroup;
-	}	
+	}
+	
+	public void useDefaults() {
+		if (priority == null) {
+			priority = DEFAULT_PRIORITY;
+		}
+	}
 
 	/**
 	 * @author Martin Strejc (strma17)

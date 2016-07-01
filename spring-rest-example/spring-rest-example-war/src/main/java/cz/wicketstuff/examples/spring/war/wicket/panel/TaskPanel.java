@@ -51,6 +51,7 @@ public class TaskPanel extends Panel {
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("ID"), Sort.ID, "id"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Name"), Sort.NAME, "name"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Priority"), Sort.PRIORITY, "priority"));
+		columns.add(new PropertyColumn<Task, Sort>(Model.of("Created"), Sort.CREATED, "created"));
 		columns.add(new PropertyColumn<Task, Sort>(Model.of("Status"), Sort.STATUS, "status"));
 		columns.add(new LambdaColumn<Task, Sort>(Model.of("Action"), (cellItem, componentId, rowModel) -> {
 			Fragment fragment = new Fragment(componentId, "actionFragment", TaskPanel.this);

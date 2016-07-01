@@ -8,6 +8,8 @@
 		<result column="name" property="name" />
 		<result column="created" property="created" />
 		<result column="uuid" property="uuidString" />
+		<result column="priority" property="priority" />
+		<result column="status" property="status" />
 	</resultMap>
 
 	<resultMap type="Task" id="taskExt" autoMapping="false" extends="task">
@@ -19,6 +21,8 @@
 		<result column="t_name" property="name" />
 		<result column="t_created" property="created" />
 		<result column="t_uuid" property="uuidString" />
+		<result column="t_priority" property="priority" />
+		<result column="t_status" property="status" />
 	</resultMap>
 
 </mapper>

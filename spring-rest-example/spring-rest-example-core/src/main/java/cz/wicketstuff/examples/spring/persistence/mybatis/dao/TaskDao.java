@@ -43,7 +43,7 @@ public interface TaskDao {
 			statementType = StatementType.STATEMENT)
 	long insert(Task task);
 	
-	@Update("UPDATE task SET name = #{name}, status = #{status} WHERE id = #{id}")
+	@Update("UPDATE task SET name = #{name}, status = #{status}, priority = #{priority} WHERE id = #{id}")
 	long update(Task task);
 	
 	@Delete("DELETE FROM task WHERE id = #{taskId}")

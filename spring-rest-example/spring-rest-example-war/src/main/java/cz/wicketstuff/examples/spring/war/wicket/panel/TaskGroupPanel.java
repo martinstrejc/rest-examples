@@ -54,6 +54,7 @@ public class TaskGroupPanel extends Panel {
 	protected DataTable<TaskGroup, Sort> newTaskGroupTable() {
 		List<IColumn<TaskGroup, Sort>> columns = new LinkedList<>();
 		columns.add(new PropertyColumn<TaskGroup, Sort>(Model.of("Created"), Sort.CREATED, "created"));
+		
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Name"), Sort.NAME, (cellItem, componentId, rowModel) -> {
 			Fragment fragment = new Fragment(componentId, "nameFragment", TaskGroupPanel.this);
 			Component link = new LambdaAjaxLink<Void>("link", (ltarget, lmodel) -> {
@@ -63,6 +64,7 @@ public class TaskGroupPanel extends Panel {
 			fragment.add(link);
 			cellItem.add(fragment);						
 		}));
+		
 		columns.add(new LambdaColumn<TaskGroup, Sort>(Model.of("Action"), (cellItem, componentId, rowModel) -> {
 			Fragment fragment = new Fragment(componentId, "actionFragment", TaskGroupPanel.this);
 			fragment.add(new LambdaAjaxLink<Void>("delete", (ltarget, lmodel) -> {
